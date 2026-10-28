@@ -232,26 +232,18 @@
   ],
   "grade": [
     {
-      "titulo": "Welcome to Country Nights",
-      "tipo": "fala_fixa",
-      "texto": "Welcome to The Morning Paper radio. For this special edition, we're leaving the news and the rush of the city behind, and heading out to the country. Sit back, relax, and let the music play.",
+      "titulo": "Top headlines",
+      "tipo": "noticias",
+      "categorias": null,
+      "n_itens": 14,
+      "palavras": 1300,
+      "fala_inicial": "Alex: This is The Morning Paper radio.",
+      "prompt": "The most important stories of the moment from around the world. Group related stories and give the bigger ones more room.",
       "vozes": {
         "Alex": {
           "gemini": "Kore",
           "edge": "en-US-AriaNeural"
-        }
-      }
-    },
-    {
-      "titulo": "Country Session 1",
-      "tipo": "musica",
-      "quantidade": 10
-    },
-    {
-      "titulo": "Story 1: The Porch Light and the Old Highway",
-      "tipo": "historia_musica",
-      "texto": "There’s a special kind of silence that only settles over the country right around dusk. It’s not the silence of an empty room; it’s a living thing—the hum of crickets tuning up their evening instruments, the distant low of a lone calf in the pasture, and the slow, rhythmic creak of an old wooden rocking chair on a weathered front porch. Old man Miller used to say that every house in the valley has a heartbeat, and its pulse is the porch light. If you’re driving down route 49 just as the sun dips below the ridge, bleeding burnt orange and dusty purple across the sky, you’ll see 'em blinking on one by one. People think country roads take you away from things—away from the rush, away from the noise. But the truth is, an old gravel road doesn't take you away; it brings you back. Back to the sound of tires crunching on limestone, back to the smell of pine and damp earth after a sudden summer shower, and back to the understanding that no matter how fast the world spins out there, time moves just a little bit slower under an open country sky. So wherever you’re tuned in tonight—whether you’re parked on the side of a dirt road or burning midnight oil on the interstate—take a breath, roll the window down just an inch, and let this next song take you right back home.",
-      "vozes": {
+        },
         "Sam": {
           "gemini": "Puck",
           "edge": "en-US-GuyNeural"
@@ -259,39 +251,25 @@
       }
     },
     {
-      "titulo": "Country Session 2",
-      "tipo": "musica",
-      "quantidade": 10
-    },
-    {
-      "titulo": "Story 2: Whispers in the Pines",
-      "tipo": "historia_musica",
-      "texto": "They say if you sit still enough by the edge of the timberland just after midnight, the wind in the pine trees starts telling old stories. Country nights don't belong to clocks; they belong to the stars. Out here, miles away from the neon glare of the city, the night sky opens up like a vast, velvet ceiling peppered with a million flickering campfires from the past. It’s a sky that has watched over generations of farmers, drifters, dreamers, and outlaws. There's a quiet magic in the way the dark wraps around a farmhouse. Inside, the wood stove is cooling down; outside, the shadows stretch long across the pasture. It’s the hour when secrets are whispered to the wind and old guitar chords seem to echo off the barn walls. You realize that the countryside isn't just a place on a map—it’s a feeling in your chest. It’s the enduring spirit of hard work, simple living, and the kind of deep-rooted peace you can't buy anywhere else.",
+      "titulo": "World weather",
+      "tipo": "clima",
+      "n_cidades": 4,
+      "palavras": 450,
+      "prompt": "A friendly weather report for the cities in the material: current conditions, today's range and chance of rain. Add one light, human comment per city. One presenter only.",
       "vozes": {
-        "Sam": {
-          "gemini": "Puck",
-          "edge": "en-US-GuyNeural"
+        "Maya": {
+          "gemini": "Aoede",
+          "edge": "en-US-JennyNeural"
         }
-      }
+      },
+      "musica_depois": true
     },
     {
-      "titulo": "Country Session 3",
-      "tipo": "musica",
-      "quantidade": 10
-    },
-    {
-      "titulo": "Sign-off",
-      "tipo": "fala_fixa",
-      "texto": "That's all the time we have for our country special on The Morning Paper radio. Thanks for tuning in, and have a good night.",
-      "ultimo": true,
-      "vozes": {
-        "Alex": {
-          "gemini": "Kore",
-          "edge": "en-US-AriaNeural"
-        }
-      }
-    }
-  ]
+      "titulo": "The Koreas",
+      "tipo": "noticias",
+      "categorias": [
+        "koreas"
+      ],
       "n_itens": 10,
       "palavras": 1100,
       "prompt": "News about North and South Korea. Keep a neutral tone and attribute claims to their source.",
