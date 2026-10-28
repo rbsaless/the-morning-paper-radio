@@ -408,41 +408,41 @@ def main():
 
         elif b["tipo"] == "clima":
             # ... o código original do clima e os demais continuam iguais daqui para baixo
-        if b["tipo"] == "clima":
-            material = []
-            for _ in range(b["n_cidades"]):
-                c = cidades[idx_clima % len(cidades)]
-                idx_clima += 1
-                try:
-                    material.append(clima(c))
-                except Exception as e:
-                    print(f"  [aviso] clima {c['nome']}: {e}")
-        elif b["tipo"] == "resumo":
-            material = [f"- {t}" for t in titulos_bloco1[:b["n_itens"]]]
-        else:
-            usados = escolher(pool, b.get("categorias"), b["n_itens"], vistos)
-            material = [linha_item(i) for i in usados]
-            if n == 1:
-                titulos_bloco1 = [i["titulo"] for i in usados]
-        if len(material) < 2:
-            print("  [aviso] material insuficiente; bloco ignorado.")
-            continue
-        linhas = roteiro(b, material, n == 1, bool(b.get("ultimo")))
-        if not linhas:
-            print("  [aviso] sem roteiro; bloco ignorado.")
-            continue
-        pcm = voz_bloco(linhas, b["vozes"])
-        if not pcm:
-            print("  [aviso] sem áudio; bloco ignorado.")
-            continue
-        arq = f"{len(blocos) + 1:02d}.mp3"
-        para_mp3(pcm, os.path.join(pasta, arq))
-        blocos.append({"titulo": b["titulo"], "arquivo": arq, "duracao": round(len(pcm) / TAXA / 2)})
-        roteiros.append(f"## {b['titulo']}\n" + "\n".join(linhas))
-        for i in usados:
-            vistos[i["h"]] = agora.isoformat()
-        if b.get("musica_depois") and not b.get("ultimo"):
-            adicionar_musica(estado, pasta, blocos)
+          if b["tipo"] == "clima":
+              material = []
+              for _ in range(b["n_cidades"]):
+                  c = cidades[idx_clima % len(cidades)]
+                  idx_clima += 1
+                  try:
+                      material.append(clima(c))
+                  except Exception as e:
+                      print(f"  [aviso] clima {c['nome']}: {e}")
+          elif b["tipo"] == "resumo":
+              material = [f"- {t}" for t in titulos_bloco1[:b["n_itens"]]]
+          else:
+              usados = escolher(pool, b.get("categorias"), b["n_itens"], vistos)
+              material = [linha_item(i) for i in usados]
+              if n == 1:
+                  titulos_bloco1 = [i["titulo"] for i in usados]
+          if len(material) < 2:
+              print("  [aviso] material insuficiente; bloco ignorado.")
+              continue
+          linhas = roteiro(b, material, n == 1, bool(b.get("ultimo")))
+          if not linhas:
+              print("  [aviso] sem roteiro; bloco ignorado.")
+              continue
+          pcm = voz_bloco(linhas, b["vozes"])
+          if not pcm:
+              print("  [aviso] sem áudio; bloco ignorado.")
+              continue
+          arq = f"{len(blocos) + 1:02d}.mp3"
+          para_mp3(pcm, os.path.join(pasta, arq))
+          blocos.append({"titulo": b["titulo"], "arquivo": arq, "duracao": round(len(pcm) / TAXA / 2)})
+          roteiros.append(f"## {b['titulo']}\n" + "\n".join(linhas))
+          for i in usados:
+              vistos[i["h"]] = agora.isoformat()
+          if b.get("musica_depois") and not b.get("ultimo"):
+              adicionar_musica(estado, pasta, blocos)
 
     if not blocos:
         shutil.rmtree(pasta, ignore_errors=True)
