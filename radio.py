@@ -364,8 +364,8 @@ def main():
         print(f"Bloco {n}/{len(grade)}: {b['titulo']}")
         usados = []
         for n, b in enumerate(grade, 1):
-        print(f"Bloco {n}/{len(grade)}: {b['titulo']}")
-        usados = []   
+          print(f"Bloco {n}/{len(grade)}: {b['titulo']}")
+          usados = []   
         if b["tipo"] == "musica":
             for _ in range(b.get("quantidade", 1)):
                 adicionar_musica(estado, pasta, blocos)
