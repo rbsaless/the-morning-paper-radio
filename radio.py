@@ -8,9 +8,18 @@ from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))
-DOCS = os.path.join(RAIZ, "docs")
-ESTADO = os.path.join(RAIZ, "estado.json")
+SITE = os.path.join(RAIZ, "_pub")           # site publicado (branch gh-pages)
+FONTE_SITE = os.path.join(RAIZ, "docs")     # index.html, local.html
+ESTADO = os.path.join(SITE, "estado.json")  # memória do rádio, guardada junto do site
 CFG = json.load(open(os.path.join(RAIZ, "config.json"), encoding="utf-8"))
+EDICAO = (os.environ.get("EDICAO") or "manha").strip()
+ED = CFG["edicoes"][EDICAO]
+NOME = ED["nome"]
+ESTILO = CFG["estilo"].replace("{nome}", NOME) + " " + ED.get("tom", "")
+
+
+def com_nome(t):
+    return t.replace("{nome}", NOME)
 CHAVE = os.environ.get("GEMINI_API_KEY", "").strip()
 MODELOS_TEXTO = [m for m in [os.environ.get("GEMINI_MODEL"), "gemini-flash-lite-latest",
                              "gemini-3.5-flash-lite", "gemini-3.8-flash"] if m]
@@ -154,11 +163,11 @@ def gemini(modelo, corpo, t=180):
 
 def roteiro(b, material, primeiro, ultimo):
     nomes = list(b["vozes"])
-    p = (f"{CFG['estilo']}\n\nBLOCK: {b['titulo']}. {b['prompt']}\n"
+    p = (f"{ESTILO}\n\nBLOCK: {b['titulo']}. {b['prompt']}\n"
          f"Target length: about {b['palavras']} words.\n"
          + (f"Speaker: {nomes[0]} only.\n" if len(nomes) == 1
             else f"Speakers: {' and '.join(nomes)}. Both must speak, alternating naturally.\n")
-         + (f"The first line must be exactly: {b['fala_inicial']}\n" if b.get("fala_inicial") and primeiro else "")
+         + (f"The first line must be exactly: {com_nome(b['fala_inicial'])}\n" if b.get("fala_inicial") and primeiro else "")
          + ("This is the final block: end with a short sign-off for the whole program.\n" if ultimo
             else "Do not greet the audience and do not say goodbye; the show continues after this block.\n")
          + "Format STRICTLY as lines starting with '<Name>:' and nothing else.\n\nMATERIAL:\n"
@@ -321,7 +330,7 @@ def adicionar_musica(estado, pasta, blocos):
     if not caminho:
         print("  (pasta de músicas vazia ou ausente; sem música neste ponto)")
         return
-    frases = CFG.get("vinhetas", [])
+    frases = [com_nome(f) for f in CFG.get("vinhetas", [])]
     k = estado.get("vinheta_idx", 0)
     estado["vinheta_idx"] = k + 1
     dur, nome = info_musica(caminho)
@@ -343,25 +352,91 @@ def adicionar_musica(estado, pasta, blocos):
 
 
 # ---------- principal ----------
+def sincronizar(origem, destino):
+    """Copia só o que mudou e remove do destino o que não existe mais na origem."""
+    os.makedirs(destino, exist_ok=True)
+    esperados = set()
+    for raiz, _, arqs in os.walk(origem):
+        rel = os.path.relpath(raiz, origem)
+        for a in arqs:
+            src = os.path.join(raiz, a)
+            dst = os.path.normpath(os.path.join(destino, rel, a))
+            esperados.add(dst)
+            os.makedirs(os.path.dirname(dst), exist_ok=True)
+            if not os.path.exists(dst) or os.path.getsize(dst) != os.path.getsize(src):
+                shutil.copy2(src, dst)
+    for raiz, _, arqs in os.walk(destino):
+        for a in arqs:
+            p = os.path.normpath(os.path.join(raiz, a))
+            if p not in esperados:
+                os.remove(p)
+
+
+def adicionar_pre(estado, b, blocos):
+    """Bloco pré-gravado (pregação etc.): sorteia um arquivo da pasta, sem repetir os recentes."""
+    pasta = os.path.join(RAIZ, b["pasta"])
+    arqs = sorted(f for f in os.listdir(pasta) if f.lower().endswith(EXT)) if os.path.isdir(pasta) else []
+    if not arqs:
+        print(f"  (pasta {b['pasta']} vazia ou ausente; bloco ignorado)")
+        return
+    usados = estado.setdefault("pre", {}).get(b["pasta"], [])
+    f = random.choice([a for a in arqs if a not in usados] or arqs)
+    estado["pre"][b["pasta"]] = (usados + [f])[-max(1, len(arqs) // 2):]
+    dur, nome = info_musica(os.path.join(pasta, f))
+    blocos.append({"titulo": f"{b['titulo']}: {nome}", "url": urllib.parse.quote(b["pasta"] + "/" + f),
+                   "duracao": round(dur), "tipo": "pre"})
+    print(f"Pré-gravado: {f} ({round(dur)}s)")
+
+
+def publicar_estaticos():
+    open(os.path.join(SITE, ".nojekyll"), "w").close()
+    if os.path.isdir(FONTE_SITE):
+        for f in os.listdir(FONTE_SITE):
+            p = os.path.join(FONTE_SITE, f)
+            if os.path.isfile(p) and f != "programas.json":
+                shutil.copy2(p, os.path.join(SITE, f))
+    for pasta in CFG.get("publicar_pastas", ["musicas", "pre"]):
+        origem, destino = os.path.join(RAIZ, pasta), os.path.join(SITE, pasta)
+        if os.path.isdir(origem):
+            sincronizar(origem, destino)
+        elif os.path.isdir(destino):
+            shutil.rmtree(destino)
+    pm = CFG["musica"]["pasta"]
+    lista = []
+    if os.path.isdir(os.path.join(SITE, pm)):
+        for f in sorted(os.listdir(os.path.join(SITE, pm))):
+            if f.lower().endswith(EXT):
+                lista.append({"url": urllib.parse.quote(pm + "/" + f), "titulo": os.path.splitext(f)[0]})
+    json.dump({"musicas": lista}, open(os.path.join(SITE, "biblioteca.json"), "w", encoding="utf-8"),
+              ensure_ascii=False)
+    print(f"Biblioteca de músicas (modo reserva): {len(lista)} faixas")
+
+
 def main():
     if not CHAVE:
         sys.exit("GEMINI_API_KEY ausente.")
+    os.makedirs(SITE, exist_ok=True)
     estado = json.load(open(ESTADO)) if os.path.exists(ESTADO) else {}
     agora = datetime.now(timezone.utc)
     corte = (agora - timedelta(hours=72)).isoformat()
     vistos = {h: t for h, t in estado.get("vistos", {}).items() if t >= corte}
     idx_clima = estado.get("clima_idx", 0)
     cidades = CFG["cidades"]
+    print(f"Edição: {NOME} ({EDICAO})")
 
     pool = coletar()
-    pid = agora.strftime("%Y%m%d-%H%M")
-    pasta = os.path.join(DOCS, "programas", pid)
+    pid = agora.strftime("%Y%m%d-%H%M") + "-" + EDICAO
+    pasta = os.path.join(SITE, "programas", pid)
     os.makedirs(pasta, exist_ok=True)
     blocos, roteiros, titulos_bloco1 = [], [], []
+    abriu = False
 
-    grade = CFG["grade"]
+    grade = ED.get("inicio", []) + (ED.get("grade") or CFG["grade"])
     for n, b in enumerate(grade, 1):
         print(f"Bloco {n}/{len(grade)}: {b['titulo']}")
+        if b["tipo"] == "pre":
+            adicionar_pre(estado, b, blocos)
+            continue
         usados = []
         if b["tipo"] == "clima":
             material = []
@@ -377,12 +452,12 @@ def main():
         else:
             usados = escolher(pool, b.get("categorias"), b["n_itens"], vistos)
             material = [linha_item(i) for i in usados]
-            if n == 1:
+            if not titulos_bloco1:
                 titulos_bloco1 = [i["titulo"] for i in usados]
         if len(material) < 2:
             print("  [aviso] material insuficiente; bloco ignorado.")
             continue
-        linhas = roteiro(b, material, n == 1, bool(b.get("ultimo")))
+        linhas = roteiro(b, material, not abriu, bool(b.get("ultimo")))
         if not linhas:
             print("  [aviso] sem roteiro; bloco ignorado.")
             continue
@@ -393,28 +468,32 @@ def main():
         arq = f"{len(blocos) + 1:02d}.mp3"
         para_mp3(pcm, os.path.join(pasta, arq))
         blocos.append({"titulo": b["titulo"], "arquivo": arq, "duracao": round(len(pcm) / TAXA / 2)})
+        abriu = True
         roteiros.append(f"## {b['titulo']}\n" + "\n".join(linhas))
         for i in usados:
             vistos[i["h"]] = agora.isoformat()
         if b.get("musica_depois") and not b.get("ultimo"):
             adicionar_musica(estado, pasta, blocos)
 
-    if not blocos:
+    if not any("arquivo" in x and x.get("tipo") != "musica" for x in blocos):
         shutil.rmtree(pasta, ignore_errors=True)
-        sys.exit("Nenhum bloco foi gerado.")
+        sys.exit("Nenhum bloco falado foi gerado.")
 
     open(os.path.join(pasta, "roteiro.txt"), "w", encoding="utf-8").write("\n\n".join(roteiros))
-    man_path = os.path.join(DOCS, "programas.json")
+    man_path = os.path.join(SITE, "programas.json")
     man = json.load(open(man_path)) if os.path.exists(man_path) else {"programas": []}
-    man["programas"].append({"id": pid, "criado": agora.isoformat(), "blocos": blocos})
+    man["programas"].append({"id": pid, "criado": agora.isoformat(), "edicao": EDICAO, "nome": NOME,
+                             "blocos": blocos})
     man["programas"] = man["programas"][-CFG["manter_programas"]:]
     manter = {p["id"] for p in man["programas"]}
-    for d in os.listdir(os.path.join(DOCS, "programas")):
+    base = os.path.join(SITE, "programas")
+    for d in os.listdir(base):
         if d not in manter:
-            shutil.rmtree(os.path.join(DOCS, "programas", d), ignore_errors=True)
+            shutil.rmtree(os.path.join(base, d), ignore_errors=True)
     json.dump(man, open(man_path, "w"), indent=1)
+    publicar_estaticos()
     json.dump({"vistos": vistos, "clima_idx": idx_clima % len(cidades), "musicas": estado.get("musicas", []),
-               "vinheta_idx": estado.get("vinheta_idx", 0)}, open(ESTADO, "w"))
+               "vinheta_idx": estado.get("vinheta_idx", 0), "pre": estado.get("pre", {})}, open(ESTADO, "w"))
     total = sum(b["duracao"] for b in blocos)
     print(f"Programa {pid}: {len(blocos)} blocos, {total // 60} min {total % 60} s")
 
