@@ -20,6 +20,7 @@ h1{font:700 1.05rem/1 "Fraunces",Georgia,serif;margin:0 0 22px;color:var(--muted
 .seg{height:100%;background:var(--line);border-radius:4px;flex:0 0 auto;transition:background .3s}
 .seg.feito{background:#6b5a3a}
 .seg.atual{background:var(--brass)}
+.seg.mus{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(240,227,192,.22) 5px 7px)}
 #agulha{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--glass);left:0;pointer-events:none;box-shadow:0 0 8px var(--glass)}
 #tempo{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:22px;font-variant-numeric:tabular-nums}
 button#play{width:100%;border:0;border-radius:12px;padding:16px;font:700 1.05rem "Fraunces",Georgia,serif;background:var(--brass);color:#2a1d05;cursor:pointer}
@@ -70,7 +71,7 @@ function desenharRegua(){
 function marcarBloco(){
   document.querySelectorAll('.seg').forEach(s => {
     const i = +s.dataset.i;
-    s.className = 'seg' + (i < idx ? ' feito' : i === idx ? ' atual' : '');
+    s.className = 'seg' + (prog.blocos[i].tipo === 'musica' ? ' mus' : '') + (i < idx ? ' feito' : i === idx ? ' atual' : '');
   });
 }
 
@@ -80,7 +81,7 @@ function carregar(p, i){
   const b = prog.blocos[i];
   au.src = `programas/${prog.id}/${b.arquivo}`;
   $('#titulo').textContent = b.titulo;
-  $('#sub').textContent = `Block ${i + 1} of ${prog.blocos.length}`;
+  $('#sub').textContent = b.tipo === 'musica' ? 'Music break' : `Block ${i + 1} of ${prog.blocos.length}`;
   marcarBloco();
   if ('mediaSession' in navigator){
     navigator.mediaSession.metadata = new MediaMetadata({title: b.titulo, artist: 'The Morning Paper radio'});
