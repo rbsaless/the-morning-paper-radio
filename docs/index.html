@@ -17,14 +17,17 @@ h1{font:700 1.05rem/1 "Fraunces",Georgia,serif;margin:0 0 22px;color:var(--muted
 #titulo{font:700 clamp(1.9rem,7vw,2.6rem)/1.1 "Fraunces",Georgia,serif;margin:0 0 6px;min-height:2.2em}
 #sub{color:var(--muted);margin:0 0 22px;min-height:1.5em}
 #dial{position:relative;height:46px;display:flex;gap:3px;margin-bottom:8px}
-.seg{height:100%;background:var(--line);border-radius:4px;flex:0 0 auto;transition:background .3s}
+.seg{cursor:pointer;height:100%;background:var(--line);border-radius:4px;flex:0 0 auto;transition:background .3s}
 .seg.feito{background:#6b5a3a}
 .seg.atual{background:var(--brass)}
 .seg.mus{background-image:repeating-linear-gradient(135deg,transparent 0 5px,rgba(240,227,192,.22) 5px 7px)}
 #agulha{position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--glass);left:0;pointer-events:none;box-shadow:0 0 8px var(--glass)}
 #tempo{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:22px;font-variant-numeric:tabular-nums}
-button#play{width:100%;border:0;border-radius:12px;padding:16px;font:700 1.05rem "Fraunces",Georgia,serif;background:var(--brass);color:#2a1d05;cursor:pointer}
-button#play:focus-visible,a:focus-visible{outline:3px solid var(--glass);outline-offset:3px}
+#ctl{display:flex;gap:10px}
+button#pular{border:1px solid var(--brass);background:transparent;color:var(--brass);border-radius:12px;padding:16px 22px;font:700 1.05rem "Fraunces",Georgia,serif;cursor:pointer}
+button#pular:disabled{opacity:.4;cursor:default}
+button#play{flex:1;border:0;border-radius:12px;padding:16px;font:700 1.05rem "Fraunces",Georgia,serif;background:var(--brass);color:#2a1d05;cursor:pointer}
+button#play:focus-visible,button#pular:focus-visible,a:focus-visible{outline:3px solid var(--glass);outline-offset:3px}
 #aviso{margin:16px 0 0;color:var(--muted);font-size:.92rem;min-height:1.4em}
 #aviso a{color:var(--brass)}
 </style>
@@ -36,14 +39,14 @@ button#play:focus-visible,a:focus-visible{outline:3px solid var(--glass);outline
   <p id="sub"></p>
   <div id="dial" aria-hidden="true"><div id="agulha"></div></div>
   <div id="tempo"><span id="t1">0:00</span><span id="t2">0:00</span></div>
-  <button id="play" disabled>Play</button>
+  <div id="ctl"><button id="play" disabled>Play</button><button id="pular" disabled aria-label="Skip to the next block">Skip</button></div>
   <p id="aviso"></p>
   <audio id="au" preload="auto"></audio>
 </main>
 <script>
 const $ = s => document.querySelector(s);
 const au = $('#au'), btn = $('#play');
-let prog = null, idx = 0, esperando = false, avisou10 = false;
+let prog = null, idx = 0, esperando = false, avisou10 = false, timer = null;
 
 function actionsUrl(){
   const h = location.hostname;
@@ -64,7 +67,7 @@ function desenharRegua(){
     const s = document.createElement('div');
     s.className = 'seg'; s.title = b.titulo;
     s.style.width = `calc(${b.duracao / total * 100}% - 3px)`;
-    s.dataset.i = i; dial.appendChild(s);
+    s.dataset.i = i; s.addEventListener('click', () => irPara(i)); dial.appendChild(s);
   });
   marcarBloco();
 }
@@ -128,9 +131,17 @@ async function procurarNovo(aoFinal){
     btn.textContent = 'Play';
     $('#titulo').textContent = 'Off the air for now';
     $('#sub').textContent = 'Waiting for the next program. This page checks every minute.';
-    setTimeout(() => procurarNovo(true), 60000);
+    clearTimeout(timer); timer = setTimeout(() => procurarNovo(true), 60000);
   }
 }
+
+function irPara(i){
+  if (!prog) return;
+  esperando = false; clearTimeout(timer);
+  if (i >= prog.blocos.length){ au.pause(); procurarNovo(true); return; }
+  carregar(prog, i); au.play();
+}
+$('#pular').addEventListener('click', () => irPara(au.getAttribute('src') ? idx + 1 : 0));
 
 btn.addEventListener('click', () => {
   if (!au.src) carregar(prog, 0);
@@ -144,7 +155,7 @@ btn.addEventListener('click', () => {
     prog = ps[ps.length - 1]; desenharRegua();
     $('#titulo').textContent = 'Ready when you are';
     $('#sub').textContent = `${prog.blocos.length} blocks, ${Math.round(prog.blocos.reduce((a,b) => a + b.duracao, 0) / 60)} minutes`;
-    btn.disabled = false;
+    btn.disabled = false; $('#pular').disabled = false;
     $('#t2').textContent = fmt(prog.blocos.reduce((a,b) => a + b.duracao, 0));
   }catch(e){
     $('#titulo').textContent = 'No program yet';
