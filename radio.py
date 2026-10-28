@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rádio em lote: coleta notícias e clima, escreve roteiros (Gemini), gera voz
 (Gemini TTS, com reserva Edge TTS) e publica um programa em docs/programas/."""
-import asyncio, hashlib, html, json, os, re, shutil, subprocess, sys, tempfile, time
+import asyncio, hashlib, html, json, os, random, re, shutil, subprocess, sys, tempfile, time
 import urllib.error, urllib.parse, urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
@@ -263,6 +263,85 @@ def para_mp3(pcm, caminho):
                     "-i", "-", "-b:a", "48k", caminho], input=pcm, check=True)
 
 
+# ---------- música e vinhetas ----------
+EXT = (".mp3", ".m4a", ".ogg", ".opus", ".wav", ".flac", ".webm")
+
+
+def sorteia_musica(estado):
+    pasta = os.path.join(RAIZ, CFG["musica"]["pasta"])
+    if not os.path.isdir(pasta):
+        return None
+    todas = sorted(f for f in os.listdir(pasta) if f.lower().endswith(EXT))
+    if not todas:
+        return None
+    recentes = estado.get("musicas", [])
+    f = random.choice([x for x in todas if x not in recentes] or todas)
+    estado["musicas"] = (recentes + [f])[-max(1, len(todas) // 2):]
+    return os.path.join(pasta, f)
+
+
+def info_musica(caminho):
+    r = subprocess.run(["ffprobe", "-v", "error", "-print_format", "json", "-show_format", caminho],
+                       capture_output=True, text=True)
+    fmt = json.loads(r.stdout or "{}").get("format", {})
+    tags = {k.lower(): v for k, v in fmt.get("tags", {}).items()}
+    nome = os.path.splitext(os.path.basename(caminho))[0]
+    if tags.get("title"):
+        nome = f"{tags['artist']} - {tags['title']}" if tags.get("artist") else tags["title"]
+    return float(fmt.get("duration") or 0), nome
+
+
+def montar_faixa(caminho, saida, dur, voz_pcm):
+    """Música com fades e volume nivelado; a vinheta falada entra por cima, abaixando a música."""
+    cm = CFG["musica"]
+    T = min(cm["segundos"], dur) if dur else cm["segundos"]
+    fo = cm["fade_saida"]
+    musica = (f"atrim=0:{T:.2f},asetpts=PTS-STARTPTS,aresample=44100,aformat=channel_layouts=stereo,"
+              f"loudnorm=I=-18:TP=-1.5:LRA=11,aresample=44100,"
+              f"afade=t=in:d={cm['fade_entrada']},afade=t=out:st={max(0, T - fo):.2f}:d={fo}")
+    with tempfile.TemporaryDirectory() as tmp:
+        if voz_pcm:
+            raw = os.path.join(tmp, "voz.raw")
+            open(raw, "wb").write(voz_pcm)
+            fg = (f"[0:a]adelay=1500|1500,aresample=44100,aformat=channel_layouts=stereo,volume=1.6,asplit=2[v1][v2];"
+                  f"[1:a]{musica}[m];"
+                  f"[m][v1]sidechaincompress=threshold=0.02:ratio=12:attack=20:release=600[duck];"
+                  f"[duck][v2]amix=inputs=2:duration=first:normalize=0[out]")
+            cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "s16le", "-ar", str(TAXA), "-ac", "1", "-i", raw,
+                   "-i", caminho, "-filter_complex", fg, "-map", "[out]"]
+        else:
+            cmd = ["ffmpeg", "-y", "-loglevel", "error", "-i", caminho, "-filter_complex",
+                   f"[0:a]{musica}[out]", "-map", "[out]"]
+        subprocess.run(cmd + ["-ar", "44100", "-ac", "2", "-b:a", "96k", saida], check=True)
+    return T
+
+
+def adicionar_musica(estado, pasta, blocos):
+    caminho = sorteia_musica(estado)
+    if not caminho:
+        print("  (pasta de músicas vazia ou ausente; sem música neste ponto)")
+        return
+    frases = CFG.get("vinhetas", [])
+    k = estado.get("vinheta_idx", 0)
+    estado["vinheta_idx"] = k + 1
+    dur, nome = info_musica(caminho)
+    voz = None
+    if frases:
+        try:
+            voz = tts_edge([f"Station: {frases[k % len(frases)]}"], {"Station": {"edge": CFG["voz_vinheta"]}})
+        except Exception as e:
+            print(f"  [aviso] vinheta: {e}")
+    arq = f"{len(blocos) + 1:02d}.mp3"
+    for v in ([voz, None] if voz else [None]):
+        try:
+            T = montar_faixa(caminho, os.path.join(pasta, arq), dur, v)
+            blocos.append({"titulo": "Music: " + nome, "arquivo": arq, "duracao": round(T), "tipo": "musica"})
+            print(f"Música: {nome} ({round(T)}s{', com vinheta' if v else ''})")
+            return
+        except subprocess.CalledProcessError as e:
+            print(f"  [aviso] mixagem {'com' if v else 'sem'} vinheta falhou: {e}")
+
+
 # ---------- principal ----------
 def main():
     if not CHAVE:
@@ -317,6 +396,8 @@ def main():
         roteiros.append(f"## {b['titulo']}\n" + "\n".join(linhas))
         for i in usados:
             vistos[i["h"]] = agora.isoformat()
+        if b.get("musica_depois") and not b.get("ultimo"):
+            adicionar_musica(estado, pasta, blocos)
 
     if not blocos:
         shutil.rmtree(pasta, ignore_errors=True)
@@ -332,7 +413,8 @@ def main():
         if d not in manter:
             shutil.rmtree(os.path.join(DOCS, "programas", d), ignore_errors=True)
     json.dump(man, open(man_path, "w"), indent=1)
-    json.dump({"vistos": vistos, "clima_idx": idx_clima % len(cidades)}, open(ESTADO, "w"))
+    json.dump({"vistos": vistos, "clima_idx": idx_clima % len(cidades), "musicas": estado.get("musicas", []),
+               "vinheta_idx": estado.get("vinheta_idx", 0)}, open(ESTADO, "w"))
     total = sum(b["duracao"] for b in blocos)
     print(f"Programa {pid}: {len(blocos)} blocos, {total // 60} min {total % 60} s")
 
