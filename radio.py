@@ -363,6 +363,51 @@ def main():
     for n, b in enumerate(grade, 1):
         print(f"Bloco {n}/{len(grade)}: {b['titulo']}")
         usados = []
+        for n, b in enumerate(grade, 1):
+        print(f"Bloco {n}/{len(grade)}: {b['titulo']}")
+        usados = []   
+        if b["tipo"] == "musica":
+            for _ in range(b.get("quantidade", 1)):
+                adicionar_musica(estado, pasta, blocos)
+            continue
+            
+        elif b["tipo"] == "fala_fixa":
+            nome_voz = list(b["vozes"].keys())[0]
+            linhas = [f"{nome_voz}: {b['texto']}"]
+            pcm = voz_bloco(linhas, b["vozes"])
+            if not pcm:
+                print("  [aviso] sem áudio; bloco ignorado.")
+                continue
+            arq = f"{len(blocos) + 1:02d}.mp3"
+            para_mp3(pcm, os.path.join(pasta, arq))
+            blocos.append({"titulo": b["titulo"], "arquivo": arq, "duracao": round(len(pcm) / TAXA / 2)})
+            roteiros.append(f"## {b['titulo']}\n" + "\n".join(linhas))
+            if b.get("musica_depois") and not b.get("ultimo"):
+                adicionar_musica(estado, pasta, blocos)
+            continue
+            
+        elif b["tipo"] == "historia_musica":
+            nome_voz = list(b["vozes"].keys())[0]
+            linhas = [f"{nome_voz}: {b['texto']}"]
+            pcm = voz_bloco(linhas, b["vozes"])
+            caminho = sorteia_musica(estado)
+            if not caminho or not pcm:
+                print("  [aviso] sem áudio ou música; bloco ignorado.")
+                continue
+            dur, nome = info_musica(caminho)
+            arq = f"{len(blocos) + 1:02d}.mp3"
+            try:
+                T = montar_faixa(caminho, os.path.join(pasta, arq), dur, pcm)
+                blocos.append({"titulo": b["titulo"], "arquivo": arq, "duracao": round(T), "tipo": "musica"})
+                roteiros.append(f"## {b['titulo']}\n" + "\n".join(linhas))
+            except Exception as e:
+                print(f"  [aviso] erro ao mixar história: {e}")
+            if b.get("musica_depois") and not b.get("ultimo"):
+                adicionar_musica(estado, pasta, blocos)
+            continue
+
+        elif b["tipo"] == "clima":
+            # ... o código original do clima e os demais continuam iguais daqui para baixo
         if b["tipo"] == "clima":
             material = []
             for _ in range(b["n_cidades"]):
