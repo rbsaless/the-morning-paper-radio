@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Morning Paper radio</title>
+<title>The Paper News radio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@ html,body{height:100%;margin:0}
 body{background:var(--bg);color:var(--glass);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;place-items:center;padding:16px}
 main{width:100%;max-width:560px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px 24px 24px}
 h1{font:700 1.05rem/1 "Fraunces",Georgia,serif;margin:0 0 22px;color:var(--muted);letter-spacing:.02em}
-#titulo{font:700 clamp(1.9rem,7vw,2.6rem)/1.1 "Fraunces",Georgia,serif;margin:0 0 6px;min-height:2.2em}
+#titulo{font:700 clamp(1.9rem,7vw,2.6rem)/1.1 "Fraunces",Georgia,serif;margin:0 0 6px;min-height:2.2em;overflow-wrap:anywhere}
 #sub{color:var(--muted);margin:0 0 22px;min-height:1.5em}
 #dial{position:relative;height:46px;display:flex;gap:3px;margin-bottom:8px}
 .seg{cursor:pointer;height:100%;background:var(--line);border-radius:4px;flex:0 0 auto;transition:background .3s}
@@ -27,139 +27,190 @@ h1{font:700 1.05rem/1 "Fraunces",Georgia,serif;margin:0 0 22px;color:var(--muted
 button#pular{border:1px solid var(--brass);background:transparent;color:var(--brass);border-radius:12px;padding:16px 22px;font:700 1.05rem "Fraunces",Georgia,serif;cursor:pointer}
 button#pular:disabled{opacity:.4;cursor:default}
 button#play{flex:1;border:0;border-radius:12px;padding:16px;font:700 1.05rem "Fraunces",Georgia,serif;background:var(--brass);color:#2a1d05;cursor:pointer}
+button#play:disabled{opacity:.5;cursor:default}
 button#play:focus-visible,button#pular:focus-visible,a:focus-visible{outline:3px solid var(--glass);outline-offset:3px}
 #aviso{margin:16px 0 0;color:var(--muted);font-size:.92rem;min-height:1.4em}
 #aviso a{color:var(--brass)}
+#rodape{margin:14px 0 0;font-size:.85rem}
+#rodape a{color:var(--muted)}
 </style>
 </head>
 <body>
 <main>
-  <h1>The Morning Paper radio</h1>
+  <h1 id="nome">The Paper News radio</h1>
   <p id="titulo">Loading…</p>
   <p id="sub"></p>
   <div id="dial" aria-hidden="true"><div id="agulha"></div></div>
   <div id="tempo"><span id="t1">0:00</span><span id="t2">0:00</span></div>
   <div id="ctl"><button id="play" disabled>Play</button><button id="pular" disabled aria-label="Skip to the next block">Skip</button></div>
   <p id="aviso"></p>
+  <p id="rodape"><a href="local.html">Local player (music from your computer)</a></p>
   <audio id="au" preload="auto"></audio>
 </main>
 <script>
 const $ = s => document.querySelector(s);
 const au = $('#au'), btn = $('#play');
 let prog = null, idx = 0, esperando = false, avisou10 = false, timer = null;
+let biblio = [], reserva = false, ultima = null, falhas = 0;
+const tocar = () => au.play().catch(() => {});
+const fmt = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; };
+const urlBloco = b => b.url || `programas/${prog.id}/${b.arquivo}`;
+const totalProg = () => prog.blocos.reduce((a, b) => a + b.duracao, 0);
 
 function actionsUrl(){
   const h = location.hostname;
   if (h.endsWith('.github.io')) return `https://github.com/${h.split('.')[0]}/${location.pathname.split('/')[1]}/actions`;
   return null;
 }
-const fmt = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; };
-
+function linkWorkflow(){
+  const u = actionsUrl();
+  return u ? `<a href="${u}" target="_blank" rel="noopener">Run the workflow</a> to generate the next program.` : 'Run the workflow to generate the next program.';
+}
 async function manifesto(){
   const r = await fetch('programas.json?' + Date.now());
   return (await r.json()).programas || [];
 }
 
 function desenharRegua(){
-  const dial = $('#dial'), total = prog.blocos.reduce((a,b) => a + b.duracao, 0);
+  const dial = $('#dial'), total = totalProg();
   dial.querySelectorAll('.seg').forEach(e => e.remove());
   prog.blocos.forEach((b, i) => {
     const s = document.createElement('div');
     s.className = 'seg'; s.title = b.titulo;
-    s.style.width = `calc(${b.duracao / total * 100}% - 3px)`;
+    s.style.width = `calc(${Math.max(b.duracao, 1) / total * 100}% - 3px)`;
     s.dataset.i = i; s.addEventListener('click', () => irPara(i)); dial.appendChild(s);
   });
   marcarBloco();
 }
 function marcarBloco(){
+  if (!prog) return;
   document.querySelectorAll('.seg').forEach(s => {
     const i = +s.dataset.i;
     s.className = 'seg' + (prog.blocos[i].tipo === 'musica' ? ' mus' : '') + (i < idx ? ' feito' : i === idx ? ' atual' : '');
   });
 }
+function mediaSession(titulo){
+  if (!('mediaSession' in navigator)) return;
+  navigator.mediaSession.metadata = new MediaMetadata({title: titulo, artist: (prog && prog.nome) || 'The Paper News radio'});
+  navigator.mediaSession.setActionHandler('play', () => tocar());
+  navigator.mediaSession.setActionHandler('pause', () => au.pause());
+  navigator.mediaSession.setActionHandler('nexttrack', () => $('#pular').click());
+}
 
 function carregar(p, i){
   if (p !== prog){ prog = p; avisou10 = false; $('#aviso').innerHTML = ''; desenharRegua(); }
-  idx = i;
+  reserva = false; idx = i;
   const b = prog.blocos[i];
-  au.src = `programas/${prog.id}/${b.arquivo}`;
+  $('#nome').textContent = prog.nome || 'The Paper News radio';
+  au.src = urlBloco(b);
   $('#titulo').textContent = b.titulo;
-  $('#sub').textContent = b.tipo === 'musica' ? 'Music break' : `Block ${i + 1} of ${prog.blocos.length}`;
-  marcarBloco();
-  if ('mediaSession' in navigator){
-    navigator.mediaSession.metadata = new MediaMetadata({title: b.titulo, artist: 'The Morning Paper radio'});
-    navigator.mediaSession.setActionHandler('play', () => au.play());
-    navigator.mediaSession.setActionHandler('pause', () => au.pause());
-  }
+  $('#sub').textContent = b.tipo === 'musica' ? 'Music break' : b.tipo === 'pre' ? 'Special segment' : `Block ${i + 1} of ${prog.blocos.length}`;
+  marcarBloco(); mediaSession(b.titulo);
 }
 
-function posicao(){
-  const total = prog.blocos.reduce((a,b) => a + b.duracao, 0);
-  const antes = prog.blocos.slice(0, idx).reduce((a,b) => a + b.duracao, 0);
-  const atual = isFinite(au.currentTime) ? au.currentTime : 0;
-  return {total, dec: antes + atual};
-}
-
-au.addEventListener('timeupdate', () => {
-  if (!prog) return;
-  const {total, dec} = posicao();
-  $('#agulha').style.left = `${Math.min(100, dec / total * 100)}%`;
-  $('#t1').textContent = fmt(dec);
-  $('#t2').textContent = '-' + fmt(total - dec);
-  if (!avisou10 && total - dec < 600){
-    avisou10 = true;
-    const u = actionsUrl();
-    $('#aviso').innerHTML = 'About 10 minutes left. ' + (u ? `<a href="${u}" target="_blank" rel="noopener">Run the workflow</a> to generate the next program.` : 'Run the workflow to generate the next program.');
-  }
-});
-au.addEventListener('play', () => btn.textContent = 'Pause');
-au.addEventListener('pause', () => { if (!esperando) btn.textContent = 'Play'; });
-
-au.addEventListener('ended', async () => {
-  if (idx + 1 < prog.blocos.length){ carregar(prog, idx + 1); au.play(); return; }
-  await procurarNovo(true);
-});
-
-async function procurarNovo(aoFinal){
+async function trocarSeNovo(){
   try{
     const ps = await manifesto();
     const novo = ps[ps.length - 1];
-    if (novo && novo.id > prog.id){ esperando = false; carregar(novo, 0); au.play(); return; }
+    if (novo && (!prog || novo.id > prog.id)){ esperando = false; clearTimeout(timer); carregar(novo, 0); tocar(); return true; }
   }catch(e){}
-  if (aoFinal){
-    esperando = true;
-    btn.textContent = 'Play';
-    $('#titulo').textContent = 'Off the air for now';
-    $('#sub').textContent = 'Waiting for the next program. This page checks every minute.';
-    clearTimeout(timer); timer = setTimeout(() => procurarNovo(true), 60000);
-  }
+  return false;
+}
+
+// Modo reserva: música da biblioteca enquanto não há programa novo
+async function proximoReserva(){
+  if (await trocarSeNovo()) return;
+  if (!biblio.length) return aguardar();
+  let t;
+  do { t = biblio[Math.floor(Math.random() * biblio.length)]; } while (biblio.length > 1 && t === ultima);
+  ultima = t; reserva = true; esperando = false;
+  if (prog){ idx = prog.blocos.length; marcarBloco(); $('#agulha').style.left = '100%'; }
+  au.src = t.url;
+  $('#titulo').textContent = t.titulo;
+  $('#sub').textContent = prog ? 'Music while you wait for the next program' : 'Music while you wait for the first program';
+  $('#aviso').innerHTML = (prog ? 'The program has finished. ' : '') + linkWorkflow();
+  mediaSession(t.titulo); tocar();
+}
+async function aguardar(){
+  if (await trocarSeNovo()) return;
+  esperando = true; btn.textContent = 'Play';
+  $('#titulo').textContent = 'Off the air for now';
+  $('#sub').textContent = 'Waiting for the next program. This page checks every minute.';
+  clearTimeout(timer); timer = setTimeout(aguardar, 60000);
+}
+async function fimDoPrograma(){
+  if (await trocarSeNovo()) return;
+  biblio.length ? proximoReserva() : aguardar();
 }
 
 function irPara(i){
   if (!prog) return;
   esperando = false; clearTimeout(timer);
-  if (i >= prog.blocos.length){ au.pause(); procurarNovo(true); return; }
-  carregar(prog, i); au.play();
+  if (i >= prog.blocos.length){ au.pause(); fimDoPrograma(); return; }
+  carregar(prog, i); tocar();
 }
-$('#pular').addEventListener('click', () => irPara(au.getAttribute('src') ? idx + 1 : 0));
 
+au.addEventListener('timeupdate', () => {
+  if (reserva){
+    $('#t1').textContent = fmt(au.currentTime);
+    $('#t2').textContent = isFinite(au.duration) ? fmt(au.duration) : '--:--';
+    return;
+  }
+  if (!prog) return;
+  const total = totalProg();
+  const dec = prog.blocos.slice(0, idx).reduce((a, b) => a + b.duracao, 0) + (isFinite(au.currentTime) ? au.currentTime : 0);
+  $('#agulha').style.left = `${Math.min(100, dec / total * 100)}%`;
+  $('#t1').textContent = fmt(dec);
+  $('#t2').textContent = '-' + fmt(total - dec);
+  if (!avisou10 && total - dec < 600){
+    avisou10 = true;
+    $('#aviso').innerHTML = 'About 10 minutes left. ' + linkWorkflow();
+  }
+});
+au.addEventListener('play', () => btn.textContent = 'Pause');
+au.addEventListener('pause', () => { if (!esperando) btn.textContent = 'Play'; });
+au.addEventListener('playing', () => { falhas = 0; });
+au.addEventListener('ended', async () => {
+  if (reserva){ await proximoReserva(); return; }
+  if (idx + 1 < prog.blocos.length){ carregar(prog, idx + 1); tocar(); return; }
+  await fimDoPrograma();
+});
+au.addEventListener('error', () => {
+  if (++falhas > 6) return;
+  if (reserva) setTimeout(proximoReserva, 400);
+  else if (prog && idx + 1 < prog.blocos.length){ carregar(prog, idx + 1); tocar(); }
+});
+
+$('#pular').addEventListener('click', () => {
+  if (reserva || !prog){ proximoReserva(); return; }
+  irPara(au.getAttribute('src') ? idx + 1 : 0);
+});
 btn.addEventListener('click', () => {
-  if (!au.src) carregar(prog, 0);
-  au.paused ? au.play() : au.pause();
+  if (!au.getAttribute('src')){
+    if (prog) carregar(prog, 0); else { proximoReserva(); return; }
+  }
+  au.paused ? tocar() : au.pause();
 });
 
 (async () => {
+  try{ biblio = (await (await fetch('biblioteca.json?' + Date.now())).json()).musicas || []; }catch(e){}
   try{
     const ps = await manifesto();
     if (!ps.length) throw 0;
     prog = ps[ps.length - 1]; desenharRegua();
+    $('#nome').textContent = prog.nome || 'The Paper News radio';
     $('#titulo').textContent = 'Ready when you are';
-    $('#sub').textContent = `${prog.blocos.length} blocks, ${Math.round(prog.blocos.reduce((a,b) => a + b.duracao, 0) / 60)} minutes`;
+    $('#sub').textContent = `${prog.blocos.length} blocks, ${Math.round(totalProg() / 60)} minutes`;
+    $('#t2').textContent = fmt(totalProg());
     btn.disabled = false; $('#pular').disabled = false;
-    $('#t2').textContent = fmt(prog.blocos.reduce((a,b) => a + b.duracao, 0));
   }catch(e){
     $('#titulo').textContent = 'No program yet';
-    $('#sub').textContent = 'Run the workflow in GitHub Actions to generate the first one.';
+    if (biblio.length){
+      $('#sub').textContent = 'Press play for music while you wait.';
+      btn.disabled = false; $('#pular').disabled = false;
+    } else {
+      $('#sub').textContent = 'Run the workflow in GitHub Actions to generate the first one.';
+    }
   }
 })();
 </script>
