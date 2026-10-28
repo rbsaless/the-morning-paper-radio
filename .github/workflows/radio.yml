@@ -1,7 +1,16 @@
 name: Gerar programa de rádio
 
 on:
-  workflow_dispatch:   # botão "Run workflow"; sem cron
+  workflow_dispatch:
+    inputs:
+      edicao:
+        description: "Edição do programa"
+        type: choice
+        default: manha
+        options:
+          - manha
+          - tarde
+          - noite
 
 permissions:
   contents: write
@@ -11,9 +20,15 @@ concurrency: radio
 jobs:
   gerar:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+      - name: Baixar o site publicado (branch gh-pages)
+        uses: actions/checkout@v4
+        continue-on-error: true   # na primeira vez a branch ainda não existe
+        with:
+          ref: gh-pages
+          path: _pub
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -27,10 +42,20 @@ jobs:
         run: python radio.py
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          EDICAO: ${{ inputs.edicao }}
       - name: Publicar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EDICAO: ${{ inputs.edicao }}
         run: |
+          cd _pub
+          if [ ! -d .git ]; then
+            git init -q
+            git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          fi
           git config user.name "radio-bot"
           git config user.email "radio-bot@users.noreply.github.com"
-          git add -A docs estado.json
-          git commit -m "Programa de $(TZ=America/Sao_Paulo date '+%F %H:%M')" || exit 0
-          git push
+          git symbolic-ref HEAD refs/heads/nova
+          git add -A
+          git commit -q -m "Programa ${EDICAO} de $(TZ=America/Sao_Paulo date '+%F %H:%M')"
+          git push -f origin HEAD:gh-pages
