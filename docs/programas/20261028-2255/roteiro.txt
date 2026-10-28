@@ -1,0 +1,81 @@
+## Top headlines
+Alex: This is The Morning Paper radio.
+Sam: We are jumping right into the top headlines from around the world today.
+Alex: Let us start in the United States, where the Federal Reserve has left interest rates unchanged.
+Sam: Right, they are waiting for the accumulation of more information.
+Alex: Also in the United States, radicals have brought life in America's largest city to a screeching halt.
+Sam: They blocked New York City's Brooklyn Bridge and vandalized the nine-eleven Memorial.
+Alex: A suspect allegedly spray-painted over victims' names at that memorial.
+Sam: Turning to business and tech news, Oracle has eased artificial intelligence spending worries.
+Alex: They have a plan to turn cash flow positive.
+Sam: And Apple has a new MacBook with a two thousand nit OLED touchscreen.
+Alex: It is crazily bright with very deep blacks, making it unlike anything else you can currently buy.
+Sam: Moving over to space exploration, NASA has welcomed Vietnam as the newest Artemis Accords signatory.
+Alex: The Socialist Republic of Vietnam became the seventy-eighth nation to sign the accords.
+Sam: They are joining a growing coalition committed to the peaceful, transparent, and responsible exploration of space.
+Alex: NASA Deputy Administrator Matt Anderson noted that Vietnam is joining at an important point in the development of its own space program.
+Sam: Let us head to Europe next, where United Nations experts have sounded the alarm at the excessive use of force in French student protests.
+Alex: The experts condemned police crackdowns and warned that they deter demonstrators from exercising their rights.
+Sam: In Asia, North Korea continues installing new fencing.
+Alex: South Korean news coverage from earlier this week shows ongoing fortification by North Korea.
+Sam: And at the University of Hong Kong, the Innovation Wing is providing equipment, workspace, and guidance for hands-on projects.
+Alex: When The Korea Times visited in early September, students were busy working on projects in a space filled with three D printers, equipment, and displays.
+Sam: Faculty members noted that the place is for experiential learning activities.
+Alex: Back to Brazil, the business entity Fiesp estimates a cost of one hundred billion reais with a court ruling value.
+Sam: They are asking for a change in the Senate.
+Alex: Fiesp states that a rate of eleven point thirty-four percent could elevate the tax burden and they are defending a revision of the contribution calculation foreseen in the tax reform.
+Sam: In sports, we have plenty of action to cover across football and baseball.
+Alex: Starting with the Campeonato Brasileiro two thousand twenty-six, we have live coverage and updates on Santos versus Palmeiras.
+Sam: There is also match information, team lineups, and photos available on globoesporte.com.
+Alex: And in the same competition, we have Vitória versus Fluminense in series A.
+Sam: Over in the Carabao Cup, Bournemouth and Aston Villa are facing off, with updates, team news, predictions, and lineups on Sky Sports.
+Alex: In the MEIJI YASUDA J three League, we have match results and data for Kitakyushu versus Shiga.
+Sam: Switching to baseball, Brewers manager Pat Murphy has defended his decision to save ace pitcher Jacob Misiorowski for game five.
+Alex: That is a quick look at the major stories moving across our screens right now.
+
+## World weather
+Maya: Let us take a quick look at the world weather today, starting over in Tokyo.
+Maya: It is currently eleven degrees Celsius, though it feels a bit cooler at eight point nine degrees Celsius.
+Maya: We have mostly clear skies and a gentle wind at three point two kilometers per hour.
+Maya: Later today, temperatures will range from a low of nine point eight to a high of seventeen point eight degrees Celsius, with a thirty-nine percent chance of rain.
+Maya: That sounds like a pretty decent day for a stroll through the park.
+Maya: Moving on to Seoul, where it is overcast and sitting at five point four degrees Celsius, feeling like two point two degrees Celsius.
+Maya: The wind is blowing at five point three kilometers per hour.
+Maya: Today will range from a minimum of four point seven to a maximum of ten point six degrees Celsius, and you will definitely want an umbrella with a ninety-nine percent chance of rain.
+Maya: Definitely a good day to stay indoors with a warm cup of tea.
+Maya: Up in Pyongyang, we are seeing light drizzle right now at eight point seven degrees Celsius, feeling like six degrees Celsius.
+Maya: Winds are a bit stronger here at twelve point five kilometers per hour.
+Maya: Today brings a low of six point two and a high of thirteen degrees Celsius, and a one hundred percent chance of rain.
+Maya: Waterproof boots are an absolute must for this one.
+Maya: Finally, heading down under to Sydney.
+Maya: It is a lovely nineteen point five degrees Celsius, feeling like eighteen point six degrees Celsius under a clear sky.
+Maya: The wind is light at eight point eight kilometers per hour.
+Maya: Today is shaping up nicely with a low of eleven point eight and a high of twenty-one point two degrees Celsius, and just a six percent chance of rain.
+Maya: I think everyone in Sydney will want to spend some time outside today.
+
+## World weather, part two
+Maya: Let us keep going with the second part of our world weather report.
+Maya: Starting over in Singapore.
+Maya: It is currently twenty-three point seven degrees Celsius, though it actually feels like twenty-nine point four degrees Celsius.
+Maya: We are looking at fog right now, and a gentle wind of one point four kilometers per hour.
+Maya: For the rest of the day, temperatures will range from a minimum of twenty-three point six degrees Celsius to a maximum of twenty-eight point three degrees Celsius.
+Maya: Do not leave the house without an umbrella today, because the chance of rain is one hundred percent.
+Maya: I suppose that is just a classic day for catching up on indoor reading.
+Maya: Moving on to Mumbai, in India.
+Maya: The current temperature is twenty-seven point five degrees Celsius, and it feels like twenty-eight point nine degrees Celsius under a clear sky.
+Maya: Wind is coming in at eight point four kilometers per hour.
+Maya: Today we will see a minimum of twenty-six point nine degrees Celsius and a maximum of thirty-four point one degrees Celsius.
+Maya: The chance of rain is twenty-nine percent, so it should mostly stay dry.
+Maya: That sounds like a wonderful kind of weather for a nice, long walk outside.
+Maya: Next up is Dubai, in the United Arab Emirates.
+Maya: Right now it is twenty-seven point eight degrees Celsius, and feeling quite a bit warmer at thirty-three point three degrees Celsius.
+Maya: The sky is clear, and the wind is blowing at four point six kilometers per hour.
+Maya: Today's temperatures will range from a minimum of twenty-seven point five degrees Celsius up to a maximum of thirty-four point three degrees Celsius.
+Maya: There is zero chance of rain today.
+Maya: Perfect weather for soaking up some sunshine if you are out and about.
+Maya: And finally, let us check in on Cairo, in Egypt.
+Maya: It is twenty-one point three degrees Celsius right now, and surprisingly it feels slightly cooler at twenty point nine degrees Celsius.
+Maya: Conditions are mostly clear, with a wind speed of four point six kilometers per hour.
+Maya: Today's range goes from a minimum of eighteen point five degrees Celsius to a maximum of twenty-seven point nine degrees Celsius.
+Maya: We have a zero percent chance of rain today as well.
+Maya: That is such a comfortable range for getting things done around town without breaking a sweat.
