@@ -1,8 +1,8 @@
 {
   "nome_radio": "The Morning Paper radio",
   "horas_recentes": 36,
-  "manter_programas": 3,
-  "estilo": "You write scripts for an English-language radio program called The Morning Paper radio. Casual, warm, short sentences, natural reactions and light banter. No emojis, no stage directions, no sound-effect cues. Stay faithful to the facts in the material and invent nothing; if a detail is not in the material, do not state it. Write numbers and units the way they are spoken (for example: twenty-one degrees Celsius). Material may be in Portuguese or other languages: always speak English.",
+  "manter_programas": 2,
+  "estilo": "You write scripts for an English-language radio program called {nome}. Casual, warm, short sentences, natural reactions and light banter. No emojis, no stage directions, no sound-effect cues. Stay faithful to the facts in the material and invent nothing; if a detail is not in the material, do not state it. Write numbers and units the way they are spoken (for example: twenty-one degrees Celsius). Material may be in Portuguese or other languages: always speak English.",
   "fontes": [
     {
       "nome": "CNN Brasil",
@@ -94,13 +94,42 @@
       "cat": "koreas",
       "max": 13
     },
-
-    { "nome": "ESPN", "url": "https://news.google.com/rss/search?q=when:2d+site:espn.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 12},
-    {"nome": "Sky Sports", "url": "https://news.google.com/rss/search?q=when:2d+site:skysports.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 12},
-    {"nome": "K League United", "url": "https://news.google.com/rss/search?q=when:3d+site:kleagueunited.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 8},
-    {"nome": "J.League", "url": "https://news.google.com/rss/search?q=when:3d+site:jleague.jp&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 8},
-    {"nome": "K League", "url": "https://news.google.com/rss/search?q=when:3d+site:kleague.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 8},
-    {"nome": "CBF", "url": "https://news.google.com/rss/search?q=when:3d+site:cbf.com.br&hl=pt-BR&gl=BR&ceid=BR:pt-419", "cat": "esportes", "max": 8},    
+    {
+      "nome": "ESPN",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:espn.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 12
+    },
+    {
+      "nome": "Sky Sports",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:skysports.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 12
+    },
+    {
+      "nome": "K League United",
+      "url": "https://news.google.com/rss/search?q=when:3d+site:kleagueunited.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 8
+    },
+    {
+      "nome": "J.League",
+      "url": "https://news.google.com/rss/search?q=when:3d+site:jleague.jp&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 8
+    },
+    {
+      "nome": "K League",
+      "url": "https://news.google.com/rss/search?q=when:3d+site:kleague.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 8
+    },
+    {
+      "nome": "CBF",
+      "url": "https://news.google.com/rss/search?q=when:3d+site:cbf.com.br&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+      "cat": "esportes",
+      "max": 8
+    },
     {
       "nome": "Yonhap",
       "url": "https://en.yna.co.kr/RSS/news.xml",
@@ -237,7 +266,7 @@
       "categorias": null,
       "n_itens": 14,
       "palavras": 1300,
-      "fala_inicial": "Alex: This is The Morning Paper radio.",
+      "fala_inicial": "Alex: This is {nome}.",
       "prompt": "The most important stories of the moment from around the world. Group related stories and give the bigger ones more room.",
       "vozes": {
         "Alex": {
@@ -407,10 +436,35 @@
   },
   "voz_vinheta": "en-US-AndrewNeural",
   "vinhetas": [
-    "You're listening to The Morning Paper radio. Some music, then more news.",
-    "The Morning Paper radio. Stay with us.",
-    "Music time on The Morning Paper radio. We'll be right back.",
-    "This is The Morning Paper radio. Sit back and enjoy this one.",
-    "Keep it here, The Morning Paper radio. More stories coming up after the music."
-  ]
+    "You're listening to {nome}. Some music, then more news.",
+    "{nome}. Stay with us.",
+    "Music time on {nome}. We'll be right back.",
+    "This is {nome}. Sit back and enjoy this one.",
+    "Keep it here, {nome}. More stories coming up after the music."
+  ],
+  "publicar_pastas": [
+    "musicas",
+    "pre"
+  ],
+  "edicoes": {
+    "manha": {
+      "nome": "The Morning Paper News",
+      "tom": "This is the morning edition: energetic but warm, informative, like a morning show.",
+      "inicio": [
+        {
+          "titulo": "Morning message",
+          "tipo": "pre",
+          "pasta": "pre/pregacao"
+        }
+      ]
+    },
+    "tarde": {
+      "nome": "The Afternoon Paper News",
+      "tom": "This is the afternoon edition: relaxed and friendly, lighter and more conversational than the morning."
+    },
+    "noite": {
+      "nome": "The Evening Paper News",
+      "tom": "This is the evening edition: playful, upbeat and fun, closing the day on a happy note, with light jokes."
+    }
+  }
 }
