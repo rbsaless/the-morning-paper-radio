@@ -94,6 +94,13 @@
       "cat": "koreas",
       "max": 13
     },
+
+    { "nome": "ESPN", "url": "https://news.google.com/rss/search?q=when:2d+site:espn.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 12},
+    {"nome": "Sky Sports", "url": "https://news.google.com/rss/search?q=when:2d+site:skysports.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 12},
+    {"nome": "K League United", "url": "https://news.google.com/rss/search?q=when:3d+site:kleagueunited.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 8},
+    {"nome": "J.League", "url": "https://news.google.com/rss/search?q=when:3d+site:jleague.jp&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 8},
+    {"nome": "K League", "url": "https://news.google.com/rss/search?q=when:3d+site:kleague.com&hl=en-US&gl=US&ceid=US:en", "cat": "esportes", "max": 8},
+    {"nome": "CBF", "url": "https://news.google.com/rss/search?q=when:3d+site:cbf.com.br&hl=pt-BR&gl=BR&ceid=BR:pt-419", "cat": "esportes", "max": 8},    
     {
       "nome": "Yonhap",
       "url": "https://en.yna.co.kr/RSS/news.xml",
