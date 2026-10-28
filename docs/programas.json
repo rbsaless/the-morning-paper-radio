@@ -1,70 +1,6 @@
 {
  "programas": [
   {
-   "id": "20261028-0615",
-   "criado": "2026-10-28T06:15:08.955678+00:00",
-   "blocos": [
-    {
-     "titulo": "Top headlines",
-     "arquivo": "01.mp3",
-     "duracao": 250
-    },
-    {
-     "titulo": "World weather",
-     "arquivo": "02.mp3",
-     "duracao": 129
-    },
-    {
-     "titulo": "Music: Mel McDaniel - Baby's Got Her BlueJeans On",
-     "arquivo": "03.mp3",
-     "duracao": 170,
-     "tipo": "musica"
-    },
-    {
-     "titulo": "The Koreas",
-     "arquivo": "04.mp3",
-     "duracao": 245
-    },
-    {
-     "titulo": "Space and science",
-     "arquivo": "05.mp3",
-     "duracao": 272
-    },
-    {
-     "titulo": "Music: Vern Gosdin - Set 'em Up Joe",
-     "arquivo": "06.mp3",
-     "duracao": 150,
-     "tipo": "musica"
-    },
-    {
-     "titulo": "World weather, part two",
-     "arquivo": "07.mp3",
-     "duracao": 109
-    },
-    {
-     "titulo": "Technology and AI",
-     "arquivo": "08.mp3",
-     "duracao": 123
-    },
-    {
-     "titulo": "Music: George Jones - He Stopped Loving Her Today",
-     "arquivo": "09.mp3",
-     "duracao": 170,
-     "tipo": "musica"
-    },
-    {
-     "titulo": "World and economy",
-     "arquivo": "10.mp3",
-     "duracao": 169
-    },
-    {
-     "titulo": "Wrap-up",
-     "arquivo": "11.mp3",
-     "duracao": 77
-    }
-   ]
-  },
-  {
    "id": "20261028-1118",
    "criado": "2026-10-28T11:18:50.761576+00:00",
    "blocos": [
@@ -157,6 +93,54 @@
      "titulo": "Wrap-up",
      "arquivo": "05.mp3",
      "duracao": 71
+    }
+   ]
+  },
+  {
+   "id": "20261028-1328",
+   "criado": "2026-10-28T13:28:03.056681+00:00",
+   "blocos": [
+    {
+     "titulo": "Top headlines",
+     "arquivo": "01.mp3",
+     "duracao": 253
+    },
+    {
+     "titulo": "World weather",
+     "arquivo": "02.mp3",
+     "duracao": 119
+    },
+    {
+     "titulo": "Music: Ronnie McDowell - Older Women",
+     "arquivo": "03.mp3",
+     "duracao": 169,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "The Koreas",
+     "arquivo": "04.mp3",
+     "duracao": 271
+    },
+    {
+     "titulo": "World weather, part two",
+     "arquivo": "05.mp3",
+     "duracao": 126
+    },
+    {
+     "titulo": "Technology and AI",
+     "arquivo": "06.mp3",
+     "duracao": 92
+    },
+    {
+     "titulo": "Music: Hank Williams jr - Family tradition",
+     "arquivo": "07.mp3",
+     "duracao": 170,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Wrap-up",
+     "arquivo": "08.mp3",
+     "duracao": 86
     }
    ]
   }
