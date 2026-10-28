@@ -303,7 +303,7 @@ def montar_faixa(caminho, saida, dur, voz_pcm):
         if voz_pcm:
             raw = os.path.join(tmp, "voz.raw")
             open(raw, "wb").write(voz_pcm)
-            fg = (f"[0:a]adelay=1500|1500,aresample=44100,aformat=channel_layouts=stereo,volume=1.6,asplit=2[v1][v2];"
+            fg = (f"[0:a]adelay=1500|1500,aresample=44100,aformat=channel_layouts=stereo,volume=1.6,apad=whole_dur={T:.2f},asplit=2[v1][v2];"
                   f"[1:a]{musica}[m];"
                   f"[m][v1]sidechaincompress=threshold=0.02:ratio=12:attack=20:release=600[duck];"
                   f"[duck][v2]amix=inputs=2:duration=first:normalize=0[out]")
