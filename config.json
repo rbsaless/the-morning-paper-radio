@@ -1,0 +1,98 @@
+{
+  "nome_radio": "The Morning Paper radio",
+  "horas_recentes": 36,
+  "manter_programas": 3,
+  "estilo": "You write scripts for an English-language radio program called The Morning Paper radio. Casual, warm, short sentences, natural reactions and light banter. No emojis, no stage directions, no sound-effect cues. Stay faithful to the facts in the material and invent nothing; if a detail is not in the material, do not state it. Write numbers and units the way they are spoken (for example: twenty-one degrees Celsius). Material may be in Portuguese or other languages: always speak English.",
+  "fontes": [
+    {"nome": "CNN Brasil", "url": "https://www.cnnbrasil.com.br/feed/", "cat": "mundo", "max": 20},
+    {"nome": "ge", "url": "https://pox.globo.com/rss/ge/", "cat": "esportes", "max": 13},
+    {"nome": "Fox News", "url": "https://moxie.foxnews.com/google-publisher/latest.xml", "cat": "mundo", "max": 16},
+    {"nome": "Reuters", "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com&hl=en-US&gl=US&ceid=US:en", "cat": "mundo", "max": 20},
+    {"nome": "Reuters AI", "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com+%22artificial+intelligence%22&hl=en-US&gl=US&ceid=US:en", "cat": "tech", "max": 10},
+    {"nome": "Al Jazeera", "url": "https://www.aljazeera.com/xml/rss/all.xml", "cat": "mundo", "max": 26},
+    {"nome": "Space.com", "url": "https://www.space.com/feeds.xml", "cat": "ciencia", "max": 13},
+    {"nome": "NASA", "url": "https://www.nasa.gov/feed/", "cat": "ciencia", "max": 10},
+    {"nome": "NASA Science", "url": "https://science.nasa.gov/feed/", "cat": "ciencia", "max": 10},
+    {"nome": "Wired", "url": "https://www.wired.com/feed/rss", "cat": "tech", "max": 13},
+    {"nome": "AI News", "url": "https://www.artificialintelligence-news.com/feed/rss/", "cat": "tech", "max": 10},
+    {"nome": "38 North", "url": "https://www.38north.org/feed/", "cat": "koreas", "max": 10},
+    {"nome": "NK News", "url": "https://www.nknews.org/feed/", "cat": "koreas", "max": 13},
+    {"nome": "Korea Herald", "url": "https://www.koreaherald.com/rss/newsAll", "cat": "koreas", "max": 13},
+    {"nome": "Korea Times", "url": "https://www.koreatimes.co.kr/www/rss/nation.xml", "cat": "koreas", "max": 13},
+    {"nome": "Yonhap", "url": "https://en.yna.co.kr/RSS/news.xml", "cat": "koreas", "max": 13}
+  ],
+  "cidades": [
+    {"nome": "Tokyo, Japan", "lat": 35.68, "lon": 139.69},
+    {"nome": "Seoul, South Korea", "lat": 37.57, "lon": 126.98},
+    {"nome": "Pyongyang, North Korea", "lat": 39.04, "lon": 125.76},
+    {"nome": "Sydney, Australia", "lat": -33.87, "lon": 151.21},
+    {"nome": "Singapore", "lat": 1.35, "lon": 103.82},
+    {"nome": "Mumbai, India", "lat": 19.08, "lon": 72.88},
+    {"nome": "Dubai, United Arab Emirates", "lat": 25.2, "lon": 55.27},
+    {"nome": "Cairo, Egypt", "lat": 30.04, "lon": 31.24},
+    {"nome": "Nairobi, Kenya", "lat": -1.29, "lon": 36.82},
+    {"nome": "Lagos, Nigeria", "lat": 6.52, "lon": 3.38},
+    {"nome": "Cape Town, South Africa", "lat": -33.92, "lon": 18.42},
+    {"nome": "Moscow, Russia", "lat": 55.76, "lon": 37.62},
+    {"nome": "Istanbul, Turkey", "lat": 41.01, "lon": 28.98},
+    {"nome": "Paris, France", "lat": 48.86, "lon": 2.35},
+    {"nome": "London, United Kingdom", "lat": 51.51, "lon": -0.13},
+    {"nome": "Reykjavik, Iceland", "lat": 64.15, "lon": -21.94},
+    {"nome": "New York, United States", "lat": 40.71, "lon": -74.01},
+    {"nome": "Los Angeles, United States", "lat": 34.05, "lon": -118.24},
+    {"nome": "Mexico City, Mexico", "lat": 19.43, "lon": -99.13},
+    {"nome": "Bogota, Colombia", "lat": 4.71, "lon": -74.07},
+    {"nome": "Sao Paulo, Brazil", "lat": -23.55, "lon": -46.63},
+    {"nome": "Vitoria, Brazil", "lat": -20.32, "lon": -40.34},
+    {"nome": "Buenos Aires, Argentina", "lat": -34.6, "lon": -58.38},
+    {"nome": "Beijing, China", "lat": 39.9, "lon": 116.4}
+  ],
+  "grade": [
+    {
+      "titulo": "Top headlines", "tipo": "noticias", "categorias": null, "n_itens": 14, "palavras": 1300,
+      "fala_inicial": "Alex: This is The Morning Paper radio.",
+      "prompt": "The most important stories of the moment from around the world. Group related stories and give the bigger ones more room.",
+      "vozes": {"Alex": {"gemini": "Kore", "edge": "en-US-AriaNeural"}, "Sam": {"gemini": "Puck", "edge": "en-US-GuyNeural"}}
+    },
+    {
+      "titulo": "World weather", "tipo": "clima", "n_cidades": 4, "palavras": 450,
+      "prompt": "A friendly weather report for the cities in the material: current conditions, today's range and chance of rain. Add one light, human comment per city. One presenter only.",
+      "vozes": {"Maya": {"gemini": "Aoede", "edge": "en-US-JennyNeural"}}
+    },
+    {
+      "titulo": "The Koreas", "tipo": "noticias", "categorias": ["koreas"], "n_itens": 10, "palavras": 1100,
+      "prompt": "News about North and South Korea. Keep a neutral tone and attribute claims to their source.",
+      "vozes": {"Alex": {"gemini": "Kore", "edge": "en-US-AriaNeural"}, "Sam": {"gemini": "Puck", "edge": "en-US-GuyNeural"}}
+    },
+    {
+      "titulo": "Space and science", "tipo": "noticias", "categorias": ["ciencia"], "n_itens": 9, "palavras": 800,
+      "prompt": "Space and science stories. Curious and enthusiastic, explain terms simply.",
+      "vozes": {"Alex": {"gemini": "Kore", "edge": "en-US-AriaNeural"}, "Sam": {"gemini": "Puck", "edge": "en-US-GuyNeural"}}
+    },
+    {
+      "titulo": "World weather, part two", "tipo": "clima", "n_cidades": 4, "palavras": 450,
+      "prompt": "A friendly weather report for the cities in the material: current conditions, today's range and chance of rain. Add one light, human comment per city. One presenter only.",
+      "vozes": {"Maya": {"gemini": "Aoede", "edge": "en-US-JennyNeural"}}
+    },
+    {
+      "titulo": "Technology and AI", "tipo": "noticias", "categorias": ["tech"], "n_itens": 9, "palavras": 900,
+      "prompt": "Technology and artificial intelligence stories. Explain what happened and why it matters, without hype.",
+      "vozes": {"Alex": {"gemini": "Kore", "edge": "en-US-AriaNeural"}, "Sam": {"gemini": "Puck", "edge": "en-US-GuyNeural"}}
+    },
+    {
+      "titulo": "Sports", "tipo": "noticias", "categorias": ["esportes"], "n_itens": 9, "palavras": 800,
+      "prompt": "Sports desk. Energetic, with friendly rivalry between the two hosts. Mention results and key players only as they appear in the material.",
+      "vozes": {"Jordan": {"gemini": "Charon", "edge": "en-US-DavisNeural"}, "Riley": {"gemini": "Leda", "edge": "en-US-AmberNeural"}}
+    },
+    {
+      "titulo": "World and economy", "tipo": "noticias", "categorias": ["mundo"], "n_itens": 12, "palavras": 1100,
+      "prompt": "Politics, world affairs and the economy, with emphasis on the Middle East, Africa and Asia. No country has priority.",
+      "vozes": {"Alex": {"gemini": "Kore", "edge": "en-US-AriaNeural"}, "Sam": {"gemini": "Puck", "edge": "en-US-GuyNeural"}}
+    },
+    {
+      "titulo": "Wrap-up", "tipo": "resumo", "n_itens": 6, "palavras": 400, "ultimo": true,
+      "prompt": "A quick recap of the biggest stories of the hour, then a short sign-off for the whole program.",
+      "vozes": {"Alex": {"gemini": "Kore", "edge": "en-US-AriaNeural"}, "Sam": {"gemini": "Puck", "edge": "en-US-GuyNeural"}}
+    }
+  ]
+}
