@@ -1,0 +1,73 @@
+## Top headlines
+Alex: This is The Morning Paper radio.
+Sam: We have a lot to cover today. Let's start with the top headlines from around the world.
+Alex: There is some major space news to kick things off. Astronomers have found a mysterious object beyond Neptune.
+Sam: And it could be a new dwarf planet. That is wild.
+Alex: It really is. The powerful Vera Rubin Observatory spotted what seems to be a dwarf planet circling the sun in the frigid depths beyond Neptune.
+Sam: Do we know how big it is?
+Alex: The icy object, known as twenty-six ED one thirty-eight, is likely between six hundred and fifteen hundred kilometers wide, or three hundred seventy-three to nine hundred seventy-two miles wide.
+Sam: That is massive. Scientists say it is probably big enough to be sculpted into a sphere by its own gravity, which is a key characteristic.
+Alex: Moving to politics, Fox News has a look at the United States midterm elections. Lee Carter writes that America is angry at everyone, but the big question is who will actually vote.
+Sam: Democrats lead midterm election polls right now. But the gap narrows sharply among voters who are certain to participate.
+Alex: Exactly. That makes voter turnout the absolute key factor in how this turns out.
+Sam: In Indonesia, hundreds of students are taking to the streets. Reuters reports they are protesting the government response as forest fires rage.
+Alex: Economic news now from Canada. Reuters AI reports that the Bank of Canada is poised to hike its key rate for the first time in three years.
+Sam: Let us jump into some international stories involving North Korea. NK News reports that Dandong residents were caught off guard by restrictions during a visit by Kim Jong Un.
+Alex: Security measures due to the North Korean leader's unannounced visit caught locals off guard over the weekend, according to social media posts.
+Sam: Authorities closed roads and in some cases locked down residential compounds.
+Alex: That happened after Kim crossed the newly opened New Yalu River Bridge on Saturday.
+Sam: Also related to North Korea, the Korea Times reports that prosecutors on Wednesday decided not to appeal the partial acquittals of three former government officials.
+Alex: Those charges were related to the forced repatriation of two North Korean fishermen in twenty-nine.
+Sam: Earlier this month, the Seoul High Court upheld lower court guilty verdicts for Chung Eui-yong, who was the former national security adviser, alongside a former national intelligence official.
+Alex: In South Korea, families are demanding the removal of alleged Itaewon disaster footage that appears in a video game.
+Sam: That is in Call of Duty: Modern Warfare four, a bestselling first-person shooter video game. It is receiving major backlash for allegedly using footage from the twenty-two Itaewon crowd crush in a cinematic sequence.
+Alex: Bereaved families and a civic coalition are demanding its removal. The controversial clip lasts about three seconds and shows paramedics performing CPR.
+Sam: Let us move over to sports, starting with football in Europe. Al Jazeera reports that a Ballon d'Or win will help keep Harry Kane at Bayern Munich, according to Lothar Matthaus.
+Alex: The former World Cup winner says the relationship between Harry Kane and club Bayern Munich is perfect.
+Sam: In France, CNN Brasil reports that Lens has closed its visitor section to its own supporters for the classic match against Lille.
+Alex: That measure was taken after the use of pyrotechnics in a Champions League game in Belgium.
+Sam: Sad news from Brazil this morning. Sports clubs in Rio Grande do Sul are lamenting the death of Guerrinha.
+Alex: Adroaldo Guerra Filho, known as Guerrinha, passed away at the age of seventy.
+Sam: He was a sports commentator. Clubs lamented his death on Wednesday morning.
+Alex: He was the victim of a lung infection that evolved into a generalized condition. The journalist was known across the sport in the state for his versatility.
+Sam: More football news. ESPN has transfer rumors and news, noting that Arsenal, Chelsea, and City are tracking Paris Saint-Germain star Doue.
+Alex: K League United has the latest South Korean football news, opinions, match previews, and score predictions.
+Sam: And Sky Sports looks back at history repeating itself, revisiting when Chris Billam-Smith and Cheavon Clarke went toe-to-toe in twenty-six.
+Alex: Finally, for technology and gadgets, Wired asks what the best Kindle of twenty-six is so far.
+Sam: The reviewer tested every single Kindle, from Paperwhite and Colorsoft to the new aluminum models, to see how Amazon's ebook readers stack up.
+
+## World weather
+Maya: Let us take a look at the world weather this morning.
+Maya: Starting things off in New York, where it is currently seven point five degrees Celsius, though it feels a bit cooler at four degrees.
+Maya: We are seeing overcast skies and a wind of nine point two kilometers per hour.
+Maya: Later today, expect a low of five point nine and a high of fifteen point six degrees Celsius, with just a one percent chance of rain.
+Maya: Grab a warm coat if you are heading out early in the city today.
+Maya: Moving over to the West Coast, Los Angeles is sitting nicely at fifteen degrees Celsius, feeling like fourteen point seven.
+Maya: It is partly cloudy with a gentle breeze of seven point two kilometers per hour.
+Maya: Today will range from a low of fourteen point four to a high of twenty-four degrees Celsius, with no rain expected at all.
+Maya: That sounds like a lovely day to spend some time outside.
+Maya: Down in Mexico City, it is currently thirteen point five degrees Celsius, feeling like thirteen.
+Maya: Conditions are mostly clear with a light wind of four point three kilometers per hour.
+Maya: Today's temperatures will range between thirteen point four and twenty-four point one degrees Celsius, but keep an umbrella handy because there is a fifty-seven percent chance of rain.
+Maya: You might want to dodge those afternoon showers.
+Maya: Finally, in Bogota, we have a current temperature of fifteen point nine degrees Celsius, feeling just about the same at sixteen degrees.
+Maya: It is mostly clear right now with a calm wind of three point two kilometers per hour.
+Maya: Today's range goes from a low of twelve to a high of twenty-two point four degrees Celsius, and there is a ninety-nine percent chance of rain today.
+Maya: Definitely do not leave the house without rain gear in Bogota.
+
+## World weather, part two
+Maya: Moving on to more world weather now. Let us check in on Sao Paulo. It is currently seventeen point two degrees Celsius, and it feels like seventeen point five degrees. Overcast skies out there, with a wind speed of six point one kilometers per hour. For the rest of today, we are looking at a minimum of thirteen point nine degrees and a maximum of twenty-three point three degrees. There is a forty-seven percent chance of rain. Grab a light jacket if you are stepping out in that overcast air.
+Maya: Next up is Vitoria. Sitting at twenty-four degrees Celsius right now, and it feels a bit warmer at twenty-five point eight degrees. Overcast again, with a wind of six kilometers per hour. Today will range from a low of nineteen point three degrees up to twenty-four point three degrees. And the chance of rain is fifty-one percent. Perfect weather for staying cozy indoors while it stays grey.
+Maya: Heading over to Argentina. In Buenos Aires, it is seventeen point eight degrees Celsius, feeling like eighteen point two degrees. We have a clear sky and a wind of seven point eight kilometers per hour. Today’s temperatures will range between thirteen point one degrees and nineteen point six degrees. The chance of rain is quite low at eighteen percent. Enjoy that clear sky while it lasts.
+Maya: Finally, let us look at Beijing. It is ten point three degrees Celsius right now, though it feels a bit brisk at seven point nine degrees. Partly cloudy conditions with a wind speed of seven point four kilometers per hour. Today is going down to a chilly minimum of two point seven degrees and peaking at fourteen point four degrees. Zero chance of rain today. Bundle up nicely if you are heading out into that crisp air.
+
+## Wrap-up
+Alex: Well, that is just about it for this hour of the show. Let us run through the biggest stories we have covered today.
+Sam: We started with football news over in France, where Lens has actually closed the visitor section for its own fans for the upcoming derby against Lille.
+Alex: And in Brazil, clubs from Rio Grande do Sul have shared their official statements mourning the death of Guerrinha.
+Sam: Moving over to opinion, Lee Carter wrote about how America is angry at everyone, leaving us with the big question of who will actually vote.
+Alex: In Indonesia, hundreds of students took to the streets to protest the government response as forest fires continue to rage.
+Sam: Economists are watching Canada closely, as the Bank of Canada is poised to hike its key rate for the first time in three years.
+Alex: And Lothar Matthaus says that winning the Ballon d'Or will help keep Harry Kane at Bayern.
+Sam: That is the big news on our radar this hour. Thank you so much for tuning in to The Morning Paper radio with us today.
+Alex: We appreciate you spending your morning with us. Have a wonderful rest of your day, and we will be back with you tomorrow bright and early.
