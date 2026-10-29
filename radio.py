@@ -4,7 +4,7 @@
 import asyncio, hashlib, html, json, os, random, re, shutil, subprocess, sys, tempfile, time
 import urllib.error, urllib.parse, urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 
 RAIZ = os.path.dirname(os.path.abspath(__file__))
@@ -300,10 +300,11 @@ def info_musica(caminho):
     return float(fmt.get("duration") or 0), nome
 
 
-def montar_faixa(caminho, saida, dur, voz_pcm):
+def montar_faixa(caminho, saida, dur, voz_pcm, limite=None):
     """Música com fades e volume nivelado; a vinheta falada entra por cima, abaixando a música."""
     cm = CFG["musica"]
-    T = min(cm["segundos"], dur) if dur else cm["segundos"]
+    lim = limite or cm["segundos"]
+    T = min(lim, dur) if dur else lim
     fo = cm["fade_saida"]
     musica = (f"atrim=0:{T:.2f},asetpts=PTS-STARTPTS,aresample=44100,aformat=channel_layouts=stereo,"
               f"loudnorm=I=-18:TP=-1.5:LRA=11,aresample=44100,"
@@ -325,7 +326,7 @@ def montar_faixa(caminho, saida, dur, voz_pcm):
     return T
 
 
-def adicionar_musica(estado, pasta, blocos):
+def adicionar_musica(estado, pasta, blocos, com_vinheta=True, limite=None):
     caminho = sorteia_musica(estado)
     if not caminho:
         print("  (pasta de músicas vazia ou ausente; sem música neste ponto)")
@@ -335,7 +336,7 @@ def adicionar_musica(estado, pasta, blocos):
     estado["vinheta_idx"] = k + 1
     dur, nome = info_musica(caminho)
     voz = None
-    if frases:
+    if frases and com_vinheta:
         try:
             voz = tts_edge([f"Station: {frases[k % len(frases)]}"], {"Station": {"edge": CFG["voz_vinheta"]}})
         except Exception as e:
@@ -343,7 +344,7 @@ def adicionar_musica(estado, pasta, blocos):
     arq = f"{len(blocos) + 1:02d}.mp3"
     for v in ([voz, None] if voz else [None]):
         try:
-            T = montar_faixa(caminho, os.path.join(pasta, arq), dur, v)
+            T = montar_faixa(caminho, os.path.join(pasta, arq), dur, v, limite)
             blocos.append({"titulo": "Music: " + nome, "arquivo": arq, "duracao": round(T), "tipo": "musica"})
             print(f"Música: {nome} ({round(T)}s{', com vinheta' if v else ''})")
             return
@@ -412,6 +413,17 @@ def publicar_estaticos():
     print(f"Biblioteca de músicas (modo reserva): {len(lista)} faixas")
 
 
+def bom_dia():
+    """Material do bloco 'Good morning': data de hoje e contagem para o Ano Novo."""
+    from zoneinfo import ZoneInfo
+    hoje = datetime.now(ZoneInfo(CFG.get("fuso", "America/Sao_Paulo"))).date()
+    ano_novo = date(hoje.year + 1, 1, 1)
+    dias = (ano_novo - hoje).days
+    txt_dias = f"{dias} day" + ("" if dias == 1 else "s")
+    return [f"- Today is {hoje.strftime('%A, %B')} {hoje.day}, {hoje.year}.",
+            f"- There are {txt_dias} left until New Year's Day ({ano_novo.strftime('%B')} 1, {ano_novo.year})."]
+
+
 def main():
     if not CHAVE:
         sys.exit("GEMINI_API_KEY ausente.")
@@ -430,6 +442,7 @@ def main():
     os.makedirs(pasta, exist_ok=True)
     blocos, roteiros, titulos_bloco1 = [], [], []
     abriu = False
+    noticias_ok = False
 
     grade = ED.get("inicio", []) + (ED.get("grade") or CFG["grade"])
     for n, b in enumerate(grade, 1):
@@ -437,8 +450,14 @@ def main():
         if b["tipo"] == "pre":
             adicionar_pre(estado, b, blocos)
             continue
+        if b["tipo"] == "musicas":      # sequência de músicas, uma atrás da outra
+            for _ in range(b["n"]):
+                adicionar_musica(estado, pasta, blocos, b.get("vinheta", False), b.get("segundos"))
+            continue
         usados = []
-        if b["tipo"] == "clima":
+        if b["tipo"] == "bomdia":
+            material = bom_dia()
+        elif b["tipo"] == "clima":
             material = []
             for _ in range(b["n_cidades"]):
                 c = cidades[idx_clima % len(cidades)]
@@ -450,6 +469,9 @@ def main():
         elif b["tipo"] == "resumo":
             material = [f"- {t}" for t in titulos_bloco1[:b["n_itens"]]]
         else:
+            if ED.get("nota_noticias") and not noticias_ok:   # primeira entrada do noticiário
+                b = dict(b, prompt=b["prompt"] + " " + ED["nota_noticias"])
+            noticias_ok = True
             usados = escolher(pool, b.get("categorias"), b["n_itens"], vistos)
             material = [linha_item(i) for i in usados]
             if not titulos_bloco1:
