@@ -455,8 +455,33 @@
           "titulo": "Morning message",
           "tipo": "pre",
           "pasta": "pre/pregacao"
+        },
+        {
+          "titulo": "Good morning",
+          "tipo": "bomdia",
+          "palavras": 400,
+          "fala_inicial": "Alex: Good morning! This is {nome}.",
+          "prompt": "A cheerful, warm and happy good morning to start the day. Say what day it is and how many days are left until New Year's Day, using only the dates in the material. Then share a short original motivational message for the day: this is the one place where you may write freely, but do not attribute it to anyone and do not present it as a famous quote. Finish by announcing a stretch of morning music, with a line like 'let's start the day with some music'. Do not read any news yet.",
+          "vozes": {
+            "Alex": {
+              "gemini": "Kore",
+              "edge": "en-US-AriaNeural"
+            },
+            "Sam": {
+              "gemini": "Puck",
+              "edge": "en-US-GuyNeural"
+            }
+          }
+        },
+        {
+          "titulo": "Morning music",
+          "tipo": "musicas",
+          "n": 5,
+          "segundos": 600,
+          "vinheta": false
         }
-      ]
+      ],
+      "nota_noticias": "The news segment starts right now, after a long stretch of music: begin with one short, friendly line saying it is time for the news, then go straight into the stories."
     },
     "tarde": {
       "nome": "The Afternoon Paper News",
@@ -466,5 +491,6 @@
       "nome": "The Evening Paper News",
       "tom": "This is the evening edition: playful, upbeat and fun, closing the day on a happy note, with light jokes."
     }
-  }
+  },
+  "fuso": "America/Sao_Paulo"
 }
