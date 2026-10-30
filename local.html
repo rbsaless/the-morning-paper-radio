@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#1b1620;--panel:#28202f;--glass:#f0e3c0;--brass:#d9a441;--muted:#9a8fa6;--line:#3b3045}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--glass);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;place-items:center;padding:16px}
+main{width:100%;max-width:560px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:28px 24px 24px}
+h1{font:700 1.05rem/1 "Fraunces",Georgia,serif;margin:0 0 22px;color:var(--muted);letter-spacing:.02em}
+#titulo{font:700 clamp(1.6rem,6vw,2.2rem)/1.15 "Fraunces",Georgia,serif;margin:0 0 6px;min-height:2.3em;overflow-wrap:anywhere}
+#sub{color:var(--muted);margin:0 0 18px;min-height:1.5em;font-size:.95rem}
+#opts{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+select{flex:1;min-width:0;background:var(--bg);color:var(--glass);border:1px solid var(--line);border-radius:10px;padding:10px}
+label{color:var(--muted);font-size:.92rem;white-space:nowrap}
+#barra{width:100%;accent-color:var(--brass);margin:0 0 4px}
+#tempo{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:18px;font-variant-numeric:tabular-nums}
+#ctl{display:flex;gap:10px;margin-bottom:14px}
+button{font:700 1.02rem "Fraunces",Georgia,serif;border-radius:12px;padding:14px 18px;cursor:pointer}
+button:disabled{opacity:.4;cursor:default}
+.sec{border:1px solid var(--brass);background:transparent;color:var(--brass)}
+#play{flex:1;border:0;background:var(--brass);color:#2a1d05}
+#escolher{width:100%}
+#lista{list-style:none;margin:16px 0 0;padding:0;max-height:220px;overflow:auto;border-top:1px solid var(--line)}
+#lista button{width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);color:var(--muted);font:500 .92rem system-ui,sans-serif;padding:9px 4px;border-radius:0}
+#lista button.atual{color:var(--brass);font-weight:700}
+#rodape{margin:14px 0 0;font-size:.85rem}
+#rodape a{color:var(--muted)}
+button:focus-visible,a:focus-visible,select:focus-visible{outline:3px solid var(--glass);outline-offset:3px}
+</style>
+</head>
+<body>
+<main>
+  <h1>Local player</h1>
+  <p id="titulo">Choose a folder</p>
+  <p id="sub">Plays the audio files of a folder on this computer. Nothing is uploaded.</p>
+  <div id="opts" hidden>
+    <select id="pasta" aria-label="Folder"></select>
+    <label><input type="checkbox" id="shuf" checked> Shuffle</label>
+  </div>
+  <input type="range" id="barra" min="0" max="1000" value="0" disabled aria-label="Position">
+  <div id="tempo"><span id="t1">0:00</span><span id="t2">0:00</span></div>
+  <div id="ctl">
+    <button class="sec" id="prev" disabled>Prev</button>
+    <button id="play" disabled>Play</button>
+    <button class="sec" id="next" disabled>Next</button>
+  </div>
+  <button class="sec" id="escolher">Choose folder</button>
+  <input type="file" id="arq" webkitdirectory multiple hidden>
+  <ul id="lista"></ul>
+  <p id="rodape"><a href="index.html">Back to the radio</a></p>
+  <audio id="au" preload="auto"></audio>
+</main>
+<script>
+const $ = s => document.querySelector(s);
+const au = $('#au'), btn = $('#play');
+const AUDIO = /\.(mp3|m4a|aac|ogg|opus|wav|flac|webm)$/i;
+let todas = [], fila = [], pos = -1, urlAtual = null, falhas = 0;
+const fmt = s => { s = Math.max(0, Math.round(s)); return `${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`; };
+
+$('#escolher').addEventListener('click', () => $('#arq').click());
+$('#arq').addEventListener('change', () => {
+  todas = [...$('#arq').files].filter(f => AUDIO.test(f.name)).map(f => {
+    const p = (f.webkitRelativePath || f.name).split('/');
+    return {file: f, pasta: p.length > 2 ? p[1] : '(main folder)', nome: f.name.replace(/\.[^.]+$/, '')};
+  });
+  if (!todas.length){ $('#titulo').textContent = 'No audio files found'; return; }
+  const pastas = [...new Set(todas.map(t => t.pasta))].sort();
+  $('#pasta').innerHTML = `<option value="*">All folders (${todas.length})</option>` +
+    pastas.map(p => `<option value="${p.replace(/"/g, '&quot;')}">${p.replace(/</g, '&lt;')} (${todas.filter(t => t.pasta === p).length})</option>`).join('');
+  $('#opts').hidden = false;
+  montar();
+});
+$('#pasta').addEventListener('change', montar);
+$('#shuf').addEventListener('change', montar);
+
+function montar(){
+  const sel = $('#pasta').value;
+  fila = todas.filter(t => sel === '*' || t.pasta === sel);
+  if ($('#shuf').checked){
+    for (let i = fila.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [fila[i], fila[j]] = [fila[j], fila[i]]; }
+  } else fila.sort((a, b) => a.nome.localeCompare(b.nome));
+  const ul = $('#lista'); ul.innerHTML = '';
+  fila.forEach((t, i) => {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.textContent = t.nome; b.addEventListener('click', () => ir(i, true));
+    li.appendChild(b); ul.appendChild(li);
+  });
+  ['play', 'prev', 'next', 'barra'].forEach(id => $('#' + id).disabled = !fila.length);
+  au.pause(); ir(0, false);
+}
+
+function ir(i, tocar){
+  if (!fila.length) return;
+  pos = (i + fila.length) % fila.length;
+  const t = fila[pos];
+  if (urlAtual) URL.revokeObjectURL(urlAtual);
+  urlAtual = URL.createObjectURL(t.file);
+  au.src = urlAtual;
+  $('#titulo').textContent = t.nome;
+  $('#sub').textContent = `${pos + 1} of ${fila.length} · ${t.pasta}`;
+  document.querySelectorAll('#lista button').forEach((b, k) => b.classList.toggle('atual', k === pos));
+  const atual = document.querySelector('#lista button.atual'); if (atual) atual.scrollIntoView({block: 'nearest'});
+  if ('mediaSession' in navigator){
+    navigator.mediaSession.metadata = new MediaMetadata({title: t.nome, artist: t.pasta});
+    navigator.mediaSession.setActionHandler('nexttrack', () => ir(pos + 1, true));
+    navigator.mediaSession.setActionHandler('previoustrack', () => ir(pos - 1, true));
+  }
+  if (tocar) au.play().catch(() => {});
+}
+
+btn.addEventListener('click', () => au.paused ? au.play().catch(() => {}) : au.pause());
+$('#next').addEventListener('click', () => ir(pos + 1, true));
+$('#prev').addEventListener('click', () => ir(pos - 1, true));
+au.addEventListener('play', () => btn.textContent = 'Pause');
+au.addEventListener('pause', () => btn.textContent = 'Play');
+au.addEventListener('playing', () => { falhas = 0; });
+au.addEventListener('ended', () => ir(pos + 1, true));
+au.addEventListener('error', () => { if (++falhas <= 6) ir(pos + 1, true); });
+au.addEventListener('timeupdate', () => {
+  if (!isFinite(au.duration)) return;
+  $('#barra').value = au.currentTime / au.duration * 1000;
+  $('#t1').textContent = fmt(au.currentTime); $('#t2').textContent = fmt(au.duration);
+});
+$('#barra').addEventListener('input', e => { if (isFinite(au.duration)) au.currentTime = e.target.value / 1000 * au.duration; });
+</script>
+</body>
+</html>

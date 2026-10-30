@@ -1,0 +1,125 @@
+{
+ "programas": [
+  {
+   "id": "20261030-2236-noite",
+   "criado": "2026-10-30T22:36:53.015460+00:00",
+   "edicao": "noite",
+   "nome": "The Evening Paper News",
+   "blocos": [
+    {
+     "titulo": "Top headlines",
+     "arquivo": "01.mp3",
+     "duracao": 268
+    },
+    {
+     "titulo": "World weather",
+     "arquivo": "02.mp3",
+     "duracao": 104
+    },
+    {
+     "titulo": "Music: Conway Twitty   Goodbye Time",
+     "arquivo": "03.mp3",
+     "duracao": 170,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "The Koreas",
+     "arquivo": "04.mp3",
+     "duracao": 311
+    },
+    {
+     "titulo": "Space and science",
+     "arquivo": "05.mp3",
+     "duracao": 267
+    },
+    {
+     "titulo": "Music: Hank Williams jr - Family tradition",
+     "arquivo": "06.mp3",
+     "duracao": 170,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World weather, part two",
+     "arquivo": "07.mp3",
+     "duracao": 121
+    },
+    {
+     "titulo": "World and economy",
+     "arquivo": "08.mp3",
+     "duracao": 395
+    },
+    {
+     "titulo": "Wrap-up",
+     "arquivo": "09.mp3",
+     "duracao": 77
+    }
+   ]
+  },
+  {
+   "id": "20261030-2322-tarde",
+   "criado": "2026-10-30T23:22:27.556059+00:00",
+   "edicao": "tarde",
+   "nome": "The Afternoon Paper News",
+   "blocos": [
+    {
+     "titulo": "Top headlines",
+     "arquivo": "01.mp3",
+     "duracao": 276
+    },
+    {
+     "titulo": "World weather",
+     "arquivo": "02.mp3",
+     "duracao": 112
+    },
+    {
+     "titulo": "Music: Don Williams - Lord, I hope this day is good",
+     "arquivo": "03.mp3",
+     "duracao": 170,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "The Koreas",
+     "arquivo": "04.mp3",
+     "duracao": 257
+    },
+    {
+     "titulo": "Space and science",
+     "arquivo": "05.mp3",
+     "duracao": 293
+    },
+    {
+     "titulo": "Music: JUICE NEWTON - Queen Of Hearts",
+     "arquivo": "06.mp3",
+     "duracao": 170,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World weather, part two",
+     "arquivo": "07.mp3",
+     "duracao": 124
+    },
+    {
+     "titulo": "Technology and AI",
+     "arquivo": "08.mp3",
+     "duracao": 157
+    },
+    {
+     "titulo": "Music: Hank williams jr. country state of mind.",
+     "arquivo": "09.mp3",
+     "duracao": 170,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World and economy",
+     "arquivo": "10.mp3",
+     "duracao": 402
+    },
+    {
+     "titulo": "Wrap-up",
+     "arquivo": "11.mp3",
+     "duracao": 85
+    }
+   ]
+  }
+ ]
+}
