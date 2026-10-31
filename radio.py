@@ -1,8 +1,21 @@
 #!/usr/bin/env python3
 """Rádio em lote: coleta notícias e clima, escreve roteiros (Gemini), gera voz
 (Gemini TTS, com reserva Edge TTS) e publica um programa em docs/programas/."""
-import asyncio, hashlib, html, json, os, random, re, shutil, subprocess, sys, tempfile, time
-import urllib.error, urllib.parse, urllib.request
+import asyncio
+import hashlib
+import html
+import json
+import os
+import random
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+import urllib.error
+import urllib.parse
+import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
@@ -10,7 +23,8 @@ from email.utils import parsedate_to_datetime
 RAIZ = os.path.dirname(os.path.abspath(__file__))
 SITE = os.path.join(RAIZ, "_pub")           # site publicado (branch gh-pages)
 FONTE_SITE = os.path.join(RAIZ, "docs")     # index.html, local.html
-ESTADO = os.path.join(SITE, "estado.json")  # memória do rádio, guardada junto do site
+# memória do rádio, guardada junto do site
+ESTADO = os.path.join(SITE, "estado.json")
 CFG = json.load(open(os.path.join(RAIZ, "config.json"), encoding="utf-8"))
 EDICAO = (os.environ.get("EDICAO") or "manha").strip()
 ED = CFG["edicoes"][EDICAO]
@@ -20,13 +34,16 @@ ESTILO = CFG["estilo"].replace("{nome}", NOME) + " " + ED.get("tom", "")
 
 def com_nome(t):
     return t.replace("{nome}", NOME)
+
+
 CHAVE = os.environ.get("GEMINI_API_KEY", "").strip()
 MODELOS_TEXTO = [m for m in [os.environ.get("GEMINI_MODEL"), "gemini-flash-lite-latest",
                              "gemini-3.5-flash-lite", "gemini-3.8-flash"] if m]
 MODELOS_VOZ = [m for m in [os.environ.get("GEMINI_TTS_MODEL"), "gemini-2.5-flash-preview-tts",
                            "gemini-2.5-pro-preview-tts"] if m]
 TAXA = 24000
-PAUSA_TTS = 6          # segundos entre chamadas do Gemini TTS (respeita o limite por minuto)
+# segundos entre chamadas do Gemini TTS (respeita o limite por minuto)
+PAUSA_TTS = 6
 MAX_CHARS_TRECHO = 2200
 gemini_voz_ligado = True
 falhas_gemini_voz = 0
@@ -38,7 +55,8 @@ def limpar(s):
 
 
 def http(url, t=30):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (radio-bot)"})
+    req = urllib.request.Request(
+        url, headers={"User-Agent": "Mozilla/5.0 (radio-bot)"})
     with urllib.request.urlopen(req, timeout=t) as r:
         return r.read()
 
@@ -79,11 +97,19 @@ def ler_feed(f):
             return ""
 
         titulo = limpar(pega("title"))
-        resumo = limpar(pega("description", "summary", "content"))[:350]
+        resumo = limpar(pega("encoded") or pega(
+            "description", "summary", "content"))[:1500]
+        link = ""
+        for c in e:
+            if c.tag.split("}")[-1] == "link":
+                link = (c.text or "").strip() or c.attrib.get("href", "")
+                if link:
+                    break
         if resumo[:30] == titulo[:30]:
             resumo = ""
         if titulo:
             itens.append({"titulo": titulo, "resumo": resumo, "fonte": f["nome"], "cat": f["cat"],
+                          "link": link,
                           "data": data_item(pega("pubDate", "published", "updated", "date")),
                           "h": hash_titulo(titulo)})
     return itens
@@ -94,11 +120,13 @@ def coletar():
     pool, vistos_h = [], set()
     for f in CFG["fontes"]:
         try:
-            itens = [i for i in ler_feed(f) if i["data"] is None or i["data"] >= corte]
+            itens = [i for i in ler_feed(
+                f) if i["data"] is None or i["data"] >= corte]
         except Exception as e:
             print(f"[aviso] feed {f['nome']}: {e}")
             continue
-        itens.sort(key=lambda i: i["data"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
+        itens.sort(key=lambda i: i["data"] or datetime.min.replace(
+            tzinfo=timezone.utc), reverse=True)
         n = 0
         for i in itens:
             if i["h"] in vistos_h:
@@ -167,7 +195,8 @@ def roteiro(b, material, primeiro, ultimo):
          f"Target length: about {b['palavras']} words.\n"
          + (f"Speaker: {nomes[0]} only.\n" if len(nomes) == 1
             else f"Speakers: {' and '.join(nomes)}. Both must speak, alternating naturally.\n")
-         + (f"The first line must be exactly: {com_nome(b['fala_inicial'])}\n" if b.get("fala_inicial") and primeiro else "")
+         + (f"The first line must be exactly: {com_nome(b['fala_inicial'])}\n" if b.get(
+             "fala_inicial") and primeiro else "")
          + ("This is the final block: end with a short sign-off for the whole program.\n" if ultimo
             else "Do not greet the audience and do not say goodbye; the show continues after this block.\n")
          + "Format STRICTLY as lines starting with '<Name>:' and nothing else.\n\nMATERIAL:\n"
@@ -207,20 +236,25 @@ def tts_gemini(trecho, vozes):
         return None
     nomes = list(vozes)
     if len(nomes) == 1:
-        cfg = {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": vozes[nomes[0]]["gemini"]}}}
-        texto = "Read this as a warm, clear radio presenter:\n" + "\n".join(l.split(":", 1)[1].strip() for l in trecho)
+        cfg = {"voiceConfig": {"prebuiltVoiceConfig": {
+            "voiceName": vozes[nomes[0]]["gemini"]}}}
+        texto = "Read this as a warm, clear radio presenter:\n" + \
+            "\n".join(l.split(":", 1)[1].strip() for l in trecho)
     else:
         cfg = {"multiSpeakerVoiceConfig": {"speakerVoiceConfigs": [
-            {"speaker": k, "voiceConfig": {"prebuiltVoiceConfig": {"voiceName": v["gemini"]}}}
+            {"speaker": k, "voiceConfig": {
+                "prebuiltVoiceConfig": {"voiceName": v["gemini"]}}}
             for k, v in vozes.items()]}}
-        texto = "Read this as a lively, friendly radio conversation:\n" + "\n".join(trecho)
+        texto = "Read this as a lively, friendly radio conversation:\n" + \
+            "\n".join(trecho)
     corpo = {"contents": [{"parts": [{"text": texto}]}],
              "generationConfig": {"responseModalities": ["AUDIO"], "speechConfig": cfg}}
     import base64
     for m in MODELOS_VOZ:
         for tentativa in range(2):
             try:
-                pcm = base64.b64decode(gemini(m, corpo, 300)["inlineData"]["data"])
+                pcm = base64.b64decode(gemini(m, corpo, 300)[
+                                       "inlineData"]["data"])
                 falhas_gemini_voz = 0
                 time.sleep(PAUSA_TTS)
                 return pcm
@@ -236,7 +270,6 @@ def tts_gemini(trecho, vozes):
         print("  [aviso] Gemini TTS desligado nesta execução; usando Edge TTS.")
     return None
 
-
 def tts_edge(trecho, vozes):
     import edge_tts
     pcm = b""
@@ -245,7 +278,8 @@ def tts_edge(trecho, vozes):
             nome, fala = l.split(":", 1)
             v = vozes.get(nome.strip()) or next(iter(vozes.values()))
             arq = os.path.join(tmp, f"{k}.mp3")
-            asyncio.run(edge_tts.Communicate(fala.strip(), v["edge"]).save(arq))
+            asyncio.run(edge_tts.Communicate(
+                fala.strip(), v["edge"]).save(arq))
             r = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", arq, "-f", "s16le",
                                 "-ar", str(TAXA), "-ac", "1", "-"], capture_output=True, check=True)
             pcm += r.stdout + silencio(0.25)
@@ -296,7 +330,8 @@ def info_musica(caminho):
     tags = {k.lower(): v for k, v in fmt.get("tags", {}).items()}
     nome = os.path.splitext(os.path.basename(caminho))[0]
     if tags.get("title"):
-        nome = f"{tags['artist']} - {tags['title']}" if tags.get("artist") else tags["title"]
+        nome = f"{tags['artist']} - {tags['title']}" if tags.get(
+            "artist") else tags["title"]
     return float(fmt.get("duration") or 0), nome
 
 
@@ -322,7 +357,8 @@ def montar_faixa(caminho, saida, dur, voz_pcm, limite=None):
         else:
             cmd = ["ffmpeg", "-y", "-loglevel", "error", "-i", caminho, "-filter_complex",
                    f"[0:a]{musica}[out]", "-map", "[out]"]
-        subprocess.run(cmd + ["-ar", "44100", "-ac", "2", "-b:a", "96k", saida], check=True)
+        subprocess.run(cmd + ["-ar", "44100", "-ac", "2",
+                       "-b:a", "96k", saida], check=True)
     return T
 
 
@@ -338,18 +374,22 @@ def adicionar_musica(estado, pasta, blocos, com_vinheta=True, limite=None):
     voz = None
     if frases and com_vinheta:
         try:
-            voz = tts_edge([f"Station: {frases[k % len(frases)]}"], {"Station": {"edge": CFG["voz_vinheta"]}})
+            voz = tts_edge([f"Station: {frases[k % len(frases)]}"], {
+                           "Station": {"edge": CFG["voz_vinheta"]}})
         except Exception as e:
             print(f"  [aviso] vinheta: {e}")
     arq = f"{len(blocos) + 1:02d}.mp3"
     for v in ([voz, None] if voz else [None]):
         try:
             T = montar_faixa(caminho, os.path.join(pasta, arq), dur, v, limite)
-            blocos.append({"titulo": "Music: " + nome, "arquivo": arq, "duracao": round(T), "tipo": "musica"})
-            print(f"Música: {nome} ({round(T)}s{', com vinheta' if v else ''})")
+            blocos.append({"titulo": "Music: " + nome, "arquivo": arq,
+                          "duracao": round(T), "tipo": "musica"})
+            print(
+                f"Música: {nome} ({round(T)}s{', com vinheta' if v else ''})")
             return
         except subprocess.CalledProcessError as e:
-            print(f"  [aviso] mixagem {'com' if v else 'sem'} vinheta falhou: {e}")
+            print(
+                f"  [aviso] mixagem {'com' if v else 'sem'} vinheta falhou: {e}")
 
 
 # ---------- principal ----------
@@ -376,7 +416,8 @@ def sincronizar(origem, destino):
 def adicionar_pre(estado, b, blocos):
     """Bloco pré-gravado (pregação etc.): sorteia um arquivo da pasta, sem repetir os recentes."""
     pasta = os.path.join(RAIZ, b["pasta"])
-    arqs = sorted(f for f in os.listdir(pasta) if f.lower().endswith(EXT)) if os.path.isdir(pasta) else []
+    arqs = sorted(f for f in os.listdir(pasta) if f.lower().endswith(
+        EXT)) if os.path.isdir(pasta) else []
     if not arqs:
         print(f"  (pasta {b['pasta']} vazia ou ausente; bloco ignorado)")
         return
@@ -407,7 +448,8 @@ def publicar_estaticos():
     if os.path.isdir(os.path.join(SITE, pm)):
         for f in sorted(os.listdir(os.path.join(SITE, pm))):
             if f.lower().endswith(EXT):
-                lista.append({"url": urllib.parse.quote(pm + "/" + f), "titulo": os.path.splitext(f)[0]})
+                lista.append({"url": urllib.parse.quote(
+                    pm + "/" + f), "titulo": os.path.splitext(f)[0]})
     json.dump({"musicas": lista}, open(os.path.join(SITE, "biblioteca.json"), "w", encoding="utf-8"),
               ensure_ascii=False)
     print(f"Biblioteca de músicas (modo reserva): {len(lista)} faixas")
@@ -422,6 +464,17 @@ def bom_dia():
     txt_dias = f"{dias} day" + ("" if dias == 1 else "s")
     return [f"- Today is {hoje.strftime('%A, %B')} {hoje.day}, {hoje.year}.",
             f"- There are {txt_dias} left until New Year's Day ({ano_novo.strftime('%B')} 1, {ano_novo.year})."]
+
+
+def texto_materia(url, limite=3500):
+    try:
+        pg = http(url, 20).decode("utf-8", "ignore")
+        pg = re.sub(
+            r"(?is)<(script|style|nav|header|footer|aside)[^>]*>.*?</\1>", " ", pg)
+        paras = [limpar(p) for p in re.findall(r"(?is)<p[^>]*>(.*?)</p>", pg)]
+        return " ".join(p for p in paras if len(p) > 60)[:limite]
+    except Exception:
+        return ""
 
 
 def main():
@@ -452,7 +505,8 @@ def main():
             continue
         if b["tipo"] == "musicas":      # sequência de músicas, uma atrás da outra
             for _ in range(b["n"]):
-                adicionar_musica(estado, pasta, blocos, b.get("vinheta", False), b.get("segundos"))
+                adicionar_musica(estado, pasta, blocos, b.get(
+                    "vinheta", False), b.get("segundos"))
             continue
         usados = []
         if b["tipo"] == "bomdia":
@@ -473,6 +527,11 @@ def main():
                 b = dict(b, prompt=b["prompt"] + " " + ED["nota_noticias"])
             noticias_ok = True
             usados = escolher(pool, b.get("categorias"), b["n_itens"], vistos)
+            for i in usados:
+                if i.get("link") and "news.google.com" not in i["link"]:
+                    t = texto_materia(i["link"])
+                    if len(t) > len(i["resumo"]):
+                        i["resumo"] = t
             material = [linha_item(i) for i in usados]
             if not titulos_bloco1:
                 titulos_bloco1 = [i["titulo"] for i in usados]
@@ -489,7 +548,8 @@ def main():
             continue
         arq = f"{len(blocos) + 1:02d}.mp3"
         para_mp3(pcm, os.path.join(pasta, arq))
-        blocos.append({"titulo": b["titulo"], "arquivo": arq, "duracao": round(len(pcm) / TAXA / 2)})
+        blocos.append(
+            {"titulo": b["titulo"], "arquivo": arq, "duracao": round(len(pcm) / TAXA / 2)})
         abriu = True
         roteiros.append(f"## {b['titulo']}\n" + "\n".join(linhas))
         for i in usados:
@@ -501,9 +561,11 @@ def main():
         shutil.rmtree(pasta, ignore_errors=True)
         sys.exit("Nenhum bloco falado foi gerado.")
 
-    open(os.path.join(pasta, "roteiro.txt"), "w", encoding="utf-8").write("\n\n".join(roteiros))
+    open(os.path.join(pasta, "roteiro.txt"), "w",
+         encoding="utf-8").write("\n\n".join(roteiros))
     man_path = os.path.join(SITE, "programas.json")
-    man = json.load(open(man_path)) if os.path.exists(man_path) else {"programas": []}
+    man = json.load(open(man_path)) if os.path.exists(
+        man_path) else {"programas": []}
     man["programas"].append({"id": pid, "criado": agora.isoformat(), "edicao": EDICAO, "nome": NOME,
                              "blocos": blocos})
     man["programas"] = man["programas"][-CFG["manter_programas"]:]
@@ -517,7 +579,8 @@ def main():
     json.dump({"vistos": vistos, "clima_idx": idx_clima % len(cidades), "musicas": estado.get("musicas", []),
                "vinheta_idx": estado.get("vinheta_idx", 0), "pre": estado.get("pre", {})}, open(ESTADO, "w"))
     total = sum(b["duracao"] for b in blocos)
-    print(f"Programa {pid}: {len(blocos)} blocos, {total // 60} min {total % 60} s")
+    print(
+        f"Programa {pid}: {len(blocos)} blocos, {total // 60} min {total % 60} s")
 
 
 if __name__ == "__main__":
