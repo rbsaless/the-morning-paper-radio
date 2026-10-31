@@ -1,6 +1,6 @@
 {
   "nome_radio": "The Morning Paper radio",
-  "horas_recentes": 36,
+  "horas_recentes": 50,
   "manter_programas": 2,
   "estilo": "You write scripts for an English-language radio program called {nome}. Casual, warm, short sentences, natural reactions and light banter. No emojis, no stage directions, no sound-effect cues. Stay faithful to the facts in the material and invent nothing; if a detail is not in the material, do not state it. Write numbers and units the way they are spoken (for example: twenty-one degrees Celsius). Material may be in Portuguese or other languages: always speak English.",
   "fontes": [
@@ -8,31 +8,31 @@
       "nome": "CNN Brasil",
       "url": "https://www.cnnbrasil.com.br/feed/",
       "cat": "mundo",
-      "max": 20
+      "max": 25
     },
     {
       "nome": "ge",
       "url": "https://pox.globo.com/rss/ge/",
       "cat": "esportes",
-      "max": 13
+      "max": 25
     },
     {
       "nome": "Fox News",
       "url": "https://moxie.foxnews.com/google-publisher/latest.xml",
       "cat": "mundo",
-      "max": 16
+      "max": 25
     },
     {
       "nome": "Reuters",
       "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 20
+      "max": 25
     },
     {
       "nome": "Reuters AI",
       "url": "https://news.google.com/rss/search?q=when:24h+site:reuters.com+%22artificial+intelligence%22&hl=en-US&gl=US&ceid=US:en",
       "cat": "tech",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "Al Jazeera",
@@ -44,175 +44,223 @@
       "nome": "Space.com",
       "url": "https://www.space.com/feeds.xml",
       "cat": "ciencia",
-      "max": 13
+      "max": 25
     },
     {
       "nome": "NASA",
       "url": "https://www.nasa.gov/feed/",
       "cat": "ciencia",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "NASA Science",
       "url": "https://science.nasa.gov/feed/",
       "cat": "ciencia",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "Wired",
       "url": "https://www.wired.com/feed/rss",
       "cat": "tech",
-      "max": 13
+      "max": 25
     },
     {
       "nome": "AI News",
       "url": "https://www.artificialintelligence-news.com/feed/rss/",
       "cat": "tech",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "38 North",
       "url": "https://www.38north.org/feed/",
       "cat": "koreas",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "NK News",
       "url": "https://www.nknews.org/feed/",
       "cat": "koreas",
-      "max": 13
+      "max": 25
     },
     {
       "nome": "Korea Herald",
       "url": "https://www.koreaherald.com/rss/newsAll",
       "cat": "koreas",
-      "max": 13
+      "max": 25
     },
     {
       "nome": "Korea Times",
       "url": "https://www.koreatimes.co.kr/www/rss/nation.xml",
       "cat": "koreas",
-      "max": 13
+      "max": 25
     },
     {
       "nome": "ESPN",
       "url": "https://news.google.com/rss/search?q=when:2d+site:espn.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "esportes",
-      "max": 12
+      "max": 25
     },
     {
       "nome": "Sky Sports",
       "url": "https://news.google.com/rss/search?q=when:2d+site:skysports.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "esportes",
-      "max": 12
+      "max": 25
     },
     {
       "nome": "K League United",
       "url": "https://news.google.com/rss/search?q=when:3d+site:kleagueunited.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "esportes",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "J.League",
       "url": "https://news.google.com/rss/search?q=when:3d+site:jleague.jp&hl=en-US&gl=US&ceid=US:en",
       "cat": "esportes",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "K League",
       "url": "https://news.google.com/rss/search?q=when:3d+site:kleague.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "esportes",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "CBF",
       "url": "https://news.google.com/rss/search?q=when:3d+site:cbf.com.br&hl=pt-BR&gl=BR&ceid=BR:pt-419",
       "cat": "esportes",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "Yonhap",
       "url": "https://en.yna.co.kr/RSS/news.xml",
       "cat": "koreas",
-      "max": 13
+      "max": 25
     },
         {
       "nome": "CNA",
       "url": "https://news.google.com/rss/search?q=when:2d+site:channelnewsasia.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "SCMP",
       "url": "https://news.google.com/rss/search?q=when:2d+site:scmp.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "Asia Times",
       "url": "https://news.google.com/rss/search?q=when:2d+site:asiatimes.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "RNZ",
       "url": "https://news.google.com/rss/search?q=when:2d+site:rnz.co.nz&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "Sydney Morning Herald",
       "url": "https://news.google.com/rss/search?q=when:2d+site:smh.com.au&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "Japan Times",
       "url": "https://news.google.com/rss/search?q=when:2d+site:japantimes.co.jp&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "Arab News",
       "url": "https://news.google.com/rss/search?q=when:2d+site:arabnews.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "Missões Mundiais",
       "url": "https://news.google.com/rss/search?q=when:7d+site:missoesmundiais.com.br&hl=pt-BR&gl=BR&ceid=BR:pt-419",
       "cat": "mundo",
-      "max": 6
+      "max": 25
     },
     {
       "nome": "Jeune Afrique",
       "url": "https://news.google.com/rss/search?q=when:2d+site:jeuneafrique.com&hl=fr&gl=FR&ceid=FR:fr",
       "cat": "mundo",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "The National",
       "url": "https://news.google.com/rss/search?q=when:2d+site:thenationalnews.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "The Africa Report",
       "url": "https://news.google.com/rss/search?q=when:3d+site:theafricareport.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 8
+      "max": 25
     },
     {
       "nome": "allAfrica",
       "url": "https://news.google.com/rss/search?q=when:2d+site:allafrica.com&hl=en-US&gl=US&ceid=US:en",
       "cat": "mundo",
-      "max": 10
+      "max": 25
     },
     {
       "nome": "Korea Pro",
       "url": "https://news.google.com/rss/search?q=when:3d+site:koreapro.org&hl=en-US&gl=US&ceid=US:en",
       "cat": "koreas",
-      "max": 8
+      "max": 25
+    },
+        {
+      "nome": "AS América",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:as.com/america&hl=es-419&gl=MX&ceid=MX:es-419",
+      "cat": "esportes",
+      "max": 25
+    },
+    {
+      "nome": "90min Brasil",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:90min.com/pt-br&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+      "cat": "esportes",
+      "max": 25
+    },
+    {
+      "nome": "Goal Brasil",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:goal.com/br&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+      "cat": "esportes",
+      "max": 25
+    },
+    {
+      "nome": "Marca",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:marca.com&hl=es&gl=ES&ceid=ES:es",
+      "cat": "esportes",
+      "max": 25
+    },
+    {
+      "nome": "BBC Sport",
+      "url": "https://news.google.com/rss/search?q=when:2d+%28site:bbc.com/sport+OR+site:bbc.co.uk/sport%29&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 25
+    },
+    {
+      "nome": "FIFA",
+      "url": "https://news.google.com/rss/search?q=when:3d+site:fifa.com&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+      "cat": "esportes",
+      "max": 25
+    },
+    {
+      "nome": "Premier League",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:premierleague.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 25
+    },
+    {
+      "nome": "MLS",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:mlssoccer.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "esportes",
+      "max": 25
     }
   ],
   "cidades": [
@@ -715,12 +763,12 @@
       ],
       "grade": [
         {
-          "titulo": "The Koreans",
+          "titulo": "Top headlines",
           "tipo": "noticias",
-          "categorias": "koreas",
+          "categorias": null,
           "n_itens": 10,
           "palavras": 6000,
-          "prompt": "Keep a neutral tone and always attribute claims to their source, for example 'according to NK News'. Claims from a government or state media are presented as claims, not as facts. For each story: Alex gives one reading of what it could mean, Sam offers a different reading, and they discuss what each reading would imply. They do not cheer for any government. End each story with one short line on what to watch next. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
+          "prompt": "Cover each story in depth: explain what happened, why it matters and what could come next. After each story, each host gives a short personal take. Spend at least 200 words per story. Opinions are allowed, but every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
@@ -748,19 +796,18 @@
           }
         },
         { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
-                {
-          "titulo": "Sports",
+        {
+          "titulo": "Space and science",
           "tipo": "noticias",
-          "categorias": ["esportes"],
-          "n_itens": 10,
-          "palavras": 9000,
-          "prompt": "A hot-takes sports show with friendly rivalry. Open with a lightning round: Jordan and Riley read the results and headlines of the first two stories in a few quick lines each. Then, for each remaining story, Jordan defends the favorite or the safe opinion and Riley backs the underdog or the bold opinion. They interrupt each other, tease each other and go back and forth at least three times per story. Predictions are allowed, but they must be called predictions and never stated as facts. After each story, each host gives a score from one to ten for the team or athlete involved and explains it in one line. For injuries, deaths or tragedies, they drop the banter and react with respect. Spend at least 200 words per story. Results, scores, names and numbers must come only from the material.",
+          "categorias": ["ciencia"],
+          "n_itens": 3,
+          "palavras": 1200,
+          "prompt": "Curious and enthusiastic. For each story: Alex explains the discovery in simple terms, and Sam plays the friendly skeptic who asks 'wait, really?' and 'how do they know that?'. They discuss whether it is a real breakthrough or just a small step, and what scientists still do not know. Explain every technical term in one simple sentence. Do not exaggerate what the material says. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
           "vozes": {
-            "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
-            "Riley":  { "gemini": "Leda", "edge": "en-US-AmberNeural" }
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
-      
         { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
         {
           "titulo": "World weather",
@@ -783,27 +830,36 @@
           }
         },
         { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 500, "vinheta": true },
-
         {
-          "titulo": "Space and science",
-          "tipo": "noticias",
-          "categorias": ["ciencia"],
-          "n_itens": 3,
-          "palavras": 1200,
-          "prompt": "Curious and enthusiastic. For each story: Alex explains the discovery in simple terms, and Sam plays the friendly skeptic who asks 'wait, really?' and 'how do they know that?'. They discuss whether it is a real breakthrough or just a small step, and what scientists still do not know. Explain every technical term in one simple sentence. Do not exaggerate what the material says. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
+          "titulo": "Sports intro",
+          "tipo": "bomdia",
+          "palavras": 80,
+          "prompt": "A very short, high-energy link in exactly five to seven short lines, alternating Alex and Sam. They get excited because it is time for the sports segment, the part of the show they love most. Alex teases that Jordan and Riley are ready to argue about the big games and the hot takes of the day, and Sam jokes that this is where the friendly fights begin. Build up the energy and end by handing the show over to the sports desk. Do not mention any real result, team, player or score, do not read any news, do not mention the date and do not say goodbye.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
+        {
+          "titulo": "Sports",
+          "tipo": "noticias",
+          "categorias": ["esportes"],
+          "n_itens": 10,
+          "palavras": 9000,
+          "prompt": "A hot-takes sports show with friendly rivalry. Open with a lightning round: Jordan and Riley read the results and headlines of the first two stories in a few quick lines each. Then, for each remaining story, Jordan defends the favorite or the safe opinion and Riley backs the underdog or the bold opinion. They interrupt each other, tease each other and go back and forth at least three times per story. Predictions are allowed, but they must be called predictions and never stated as facts. After each story, each host gives a score from one to ten for the team or athlete involved and explains it in one line. For injuries, deaths or tragedies, they drop the banter and react with respect. Spend at least 200 words per story. Results, scores, names and numbers must come only from the material.",
+          "vozes": {
+            "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
+            "Riley":  { "gemini": "Leda", "edge": "en-US-AmberNeural" }
+          }
+        },
         { "titulo": "Evening music", "tipo": "musicas", "n": 10, "segundos": 1900, "vinheta": true },
        {
-          "titulo": "World News",
+          "titulo": "The Koreas",
           "tipo": "noticias",
-          "categorias": ["mundo"],
+          "categorias": ["koreas"],
           "n_itens": 10,
           "palavras": 6000,
-          "prompt": "Cover each story in depth: explain what happened, why it matters and what could come next. After each story, each host gives a short personal take. Spend at least 200 words per story. Opinions are allowed, but every fact, number and name must come only from the material.",
+          "prompt": "Keep a neutral tone and always attribute claims to their source, for example 'according to NK News'. Claims from a government or state media are presented as claims, not as facts. For each story: Alex gives one reading of what it could mean, Sam offers a different reading, and they discuss what each reading would imply. They do not cheer for any government. End each story with one short line on what to watch next. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
