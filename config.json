@@ -135,6 +135,84 @@
       "url": "https://en.yna.co.kr/RSS/news.xml",
       "cat": "koreas",
       "max": 13
+    },
+        {
+      "nome": "CNA",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:channelnewsasia.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 10
+    },
+    {
+      "nome": "SCMP",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:scmp.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 10
+    },
+    {
+      "nome": "Asia Times",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:asiatimes.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 8
+    },
+    {
+      "nome": "RNZ",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:rnz.co.nz&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 8
+    },
+    {
+      "nome": "Sydney Morning Herald",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:smh.com.au&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 8
+    },
+    {
+      "nome": "Japan Times",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:japantimes.co.jp&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 10
+    },
+    {
+      "nome": "Arab News",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:arabnews.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 10
+    },
+    {
+      "nome": "Missões Mundiais",
+      "url": "https://news.google.com/rss/search?q=when:7d+site:missoesmundiais.com.br&hl=pt-BR&gl=BR&ceid=BR:pt-419",
+      "cat": "mundo",
+      "max": 6
+    },
+    {
+      "nome": "Jeune Afrique",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:jeuneafrique.com&hl=fr&gl=FR&ceid=FR:fr",
+      "cat": "mundo",
+      "max": 8
+    },
+    {
+      "nome": "The National",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:thenationalnews.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 10
+    },
+    {
+      "nome": "The Africa Report",
+      "url": "https://news.google.com/rss/search?q=when:3d+site:theafricareport.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 8
+    },
+    {
+      "nome": "allAfrica",
+      "url": "https://news.google.com/rss/search?q=when:2d+site:allafrica.com&hl=en-US&gl=US&ceid=US:en",
+      "cat": "mundo",
+      "max": 10
+    },
+    {
+      "nome": "Korea Pro",
+      "url": "https://news.google.com/rss/search?q=when:3d+site:koreapro.org&hl=en-US&gl=US&ceid=US:en",
+      "cat": "koreas",
+      "max": 8
     }
   ],
   "cidades": [
@@ -435,13 +513,42 @@
     "fade_saida": 5
   },
   "voz_vinheta": "en-US-AndrewNeural",
-  "vinhetas": [
-    "You're listening to {nome}. Some music, then more news.",
-    "{nome}. Stay with us.",
-    "Music time on {nome}. We'll be right back.",
-    "This is {nome}. Sit back and enjoy this one.",
-    "Keep it here, {nome}. More stories coming up after the music."
-  ],
+"vinhetas": [
+  "You're listening to {nome}. Some music, then more news.",
+  "{nome}. Stay with us.",
+  "Music time on {nome}. We'll be right back.",
+  "This is {nome}. Sit back and enjoy this one.",
+  "Keep it here, {nome}. More stories coming up after the music.",
+
+  "You're listening to {nome}.",
+  "{nome}. Stay tuned.",
+  "This is {nome}. Enjoy the music.",
+  "{nome}. Good music, good company.",
+  "Take a breath. You're with {nome}.",
+
+  "You're tuned in to {nome}. Relax, and enjoy the next song.",
+  "A little music on {nome}, and we'll be right back with you.",
+  "This is {nome}. Turn it up and enjoy the ride.",
+  "{nome}, keeping you company. Here's a song for the road.",
+  "Stay right where you are. {nome} will be right back after this.",
+  "Music on {nome}. Sit back, get comfortable, and enjoy.",
+
+  "You're listening to {nome}, your company for the hours ahead. Sit back, enjoy this song, and we'll be right back with more.",
+  "This is {nome}. Whatever you're doing right now, take a moment, enjoy the music, and stay with us, because there is more on the way.",
+  "Welcome back to the music on {nome}. Make yourself comfortable, let the song play, and we'll be back with you shortly.",
+  "{nome}. Let the music play while we get the next stories ready for you.",
+  "You're with {nome}. Take it easy and enjoy the rhythm.",
+  "{nome}. Fresh stories, great music, right where you left us.",
+  "Keep it locked right here on {nome}. More updates are on the way after the song.",
+  "Good music and good stories. You're right at home with {nome}.",
+  "Time for a quick break on {nome}. We will be right back with more news.",
+  "{nome}. Smooth sounds and straight news. Stay with us.",
+  "Whatever your day looks like, {nome} is right here with you.",
+  "Turn up the volume and enjoy this track on {nome}.",
+  "You are listening to {nome}. We are just getting started."
+],
+
+
   "publicar_pastas": [
     "musicas",
     "pre"
@@ -450,6 +557,7 @@
     "manha": {
       "nome": "The Morning Paper News",
       "tom": "This is the morning edition: energetic but warm, informative, like a morning show.",
+      
       "inicio": [
         {
           "titulo": "Morning message",
@@ -483,13 +591,243 @@
       ],
       "nota_noticias": "The news segment starts right now, after a long stretch of music: begin with one short, friendly line saying it is time for the news, then go straight into the stories."
     },
-    "tarde": {
+   "tarde": {
       "nome": "The Afternoon Paper News",
-      "tom": "This is the afternoon edition: relaxed and friendly, lighter and more conversational than the morning."
-    },
+      "tom": "This is the afternoon edition: playful, warm and chatty, like a relaxed magazine show. Light jokes are welcome, but never about tragedies.",
+      "inicio": [
+        {
+          "titulo": "Welcome",
+          "tipo": "bomdia",
+          "palavras": 500,
+          "fala_inicial": "Alex: Hey, good afternoon, everybody! Sam, are you awake? This is {nome}.",
+          "prompt": "A warm, funny opening, in this order: (1) greet the audience and say what day it is, using only the date in the material; (2) the two hosts chat lightly about the afternoon slump and needing coffee, without mentioning any real news; (3) tease what is coming: headlines, weather, science, technology and sports; (4) announce a song. Do not read any news yet. Sam is the sleepy one, Alex is the cheerful one.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        { "titulo": "Afternoon music", "tipo": "musicas", "n": 1, "segundos": 170, "vinheta": false }
+      ],
+      "grade": [
+        {
+          "titulo": "Top headlines",
+          "tipo": "noticias",
+          "categorias": null,
+          "n_itens": 10,
+          "palavras": 900,
+          "prompt": "The most important stories of the moment from around the world. Group related stories and give the bigger ones more room. Keep the banter light, but treat serious stories seriously.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          },
+          "musica_depois": true
+        },
+        {
+          "titulo": "World weather",
+          "tipo": "clima",
+          "n_cidades": 4,
+          "palavras": 400,
+          "prompt": "A friendly weather report for the cities in the material: current conditions, today's range and chance of rain. Add one light, human comment per city. One presenter only.",
+          "vozes": { "Maya": { "gemini": "Aoede", "edge": "en-US-JennyNeural" } }
+        },
+        {
+          "titulo": "World and economy",
+          "tipo": "noticias",
+          "categorias": ["mundo"],
+          "n_itens": 9,
+          "palavras": 800,
+          "prompt": "Politics, world affairs and the economy, with emphasis on the Middle East, Africa and Asia. No country has priority.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        {
+          "titulo": "Space and science",
+          "tipo": "noticias",
+          "categorias": ["ciencia"],
+          "n_itens": 7,
+          "palavras": 650,
+          "prompt": "Space and science stories. Curious and enthusiastic, explain terms simply. Sam asks the 'dumb' questions listeners might have, and Alex answers.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          },
+          "musica_depois": true
+        },
+        {
+          "titulo": "Technology and AI",
+          "tipo": "noticias",
+          "categorias": ["tech"],
+          "n_itens": 7,
+          "palavras": 650,
+          "prompt": "Technology and artificial intelligence stories. Explain what happened and why it matters, without hype.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        {
+          "titulo": "Sports",
+          "tipo": "noticias",
+          "categorias": ["esportes"],
+          "n_itens": 8,
+          "palavras": 650,
+          "prompt": "Sports desk. Energetic, with friendly rivalry between the two hosts. Mention results and key players only as they appear in the material.",
+          "vozes": {
+            "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
+            "Riley":  { "gemini": "Leda", "edge": "en-US-AmberNeural" }
+          }
+        },
+        {
+          "titulo": "Wrap-up",
+          "tipo": "resumo",
+          "n_itens": 6,
+          "palavras": 350,
+          "ultimo": true,
+          "prompt": "A quick, cheerful recap of the biggest stories, then a warm sign-off for the whole afternoon.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        }
+      ]
+},
+
+
+
     "noite": {
       "nome": "The Evening Paper News",
-      "tom": "This is the evening edition: playful, upbeat and fun, closing the day on a happy note, with light jokes."
+      "tom": "This is the Evening edition: playful, warm and chatty, like a relaxed magazine show. Light jokes are welcome, but never about tragedies.",
+      "inicio": [
+        {
+          "titulo": "Welcome",
+          "tipo": "bomdia",
+          "palavras": 700,
+          "fala_inicial": "Alex: Hey, good Evening, everybody! Sam, are you ready? This is {nome}, and we go together until midnight, sit tight and get ready for the world news, music, show and a lot more",
+          "prompt": "A warm, funny opening, in this order: (1) greet the audience and say what day it is, using only the date in the material; (2) the two hosts chat lightly about the end of the day: dinner plans, tired feet and the couch waiting at home, without mentioning any real news; (3) tease what is coming: headlines, weather and sports; (4) announce a song. Do not read any news yet. Alex is the cheerful one, Sam is the one who is already half asleep",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 500, "vinheta": true }
+      ],
+      "grade": [
+        {
+          "titulo": "Top headlines",
+          "tipo": "noticias",
+          "categorias": null,
+          "n_itens": 5,
+          "palavras": 1500,
+          "prompt": "Cover each story in depth: explain what happened, why it matters and what could come next. After each story, each host gives a short personal take. Spend at least 200 words per story. Opinions are allowed, but every fact, number and name must come only from the material.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        {
+          "titulo": "Music intro",
+          "tipo": "bomdia",
+          "palavras": 70,
+          "prompt": "A very short link in exactly four to six short lines, alternating Alex and Sam. They say it is time for a music break and wish the listeners a good moment with the song. Do not read any news, do not mention the date and do not say goodbye.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 5, "segundos": 1000, "vinheta": true },
+        {
+          "titulo": "World weather",
+          "tipo": "clima",
+          "n_cidades": 4,
+          "palavras": 400,
+          "prompt": "A friendly weather report for the cities in the material: current conditions, today's range and chance of rain. Add one light, human comment per city. One presenter only.",
+          "vozes": { "Maya": { "gemini": "Aoede", "edge": "en-US-JennyNeural" } }
+        },
+        {
+          "titulo": "World and economy",
+          "tipo": "noticias",
+          "categorias": ["mundo"],
+          "n_itens": 5,
+          "palavras": 1700,
+          "prompt": "For each story: Alex explains what happened, then Sam asks the hard questions: who gains, who loses, what are the risks and what is still unclear. They weigh the strongest arguments of each side and go back and forth at least three times per story, politely. Do not take a side in wars, elections or disputes between countries: present the best case each side would make and attribute claims to their source. For economy stories, debate what it means for ordinary people. No country has priority. For tragedies, react with respect and do not debate. Spend at least 250 words per story. Every fact, number and name must come only from the material.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 10, "segundos": 1900, "vinheta": true },
+        {
+          "titulo": "Space and science",
+          "tipo": "noticias",
+          "categorias": ["ciencia"],
+          "n_itens": 3,
+          "palavras": 1200,
+          "prompt": "Curious and enthusiastic. For each story: Alex explains the discovery in simple terms, and Sam plays the friendly skeptic who asks 'wait, really?' and 'how do they know that?'. They discuss whether it is a real breakthrough or just a small step, and what scientists still do not know. Explain every technical term in one simple sentence. Do not exaggerate what the material says. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 10, "segundos": 1900, "vinheta": true },
+        {
+          "titulo": "World weather",
+          "tipo": "clima",
+          "n_cidades": 4,
+          "palavras": 400,
+          "prompt": "A friendly weather report for the cities in the material: current conditions, today's range and chance of rain. Add one light, human comment per city. One presenter only.",
+          "vozes": { "Maya": { "gemini": "Aoede", "edge": "en-US-JennyNeural" } }
+        },
+        {
+          "titulo": "Technology and AI",
+          "tipo": "noticias",
+          "categorias": ["tech"],
+          "n_itens": 7,
+          "palavras": 650,
+          "prompt": "Technology and artificial intelligence stories. Explain what happened and why it matters, without hype.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 500, "vinheta": true },
+        {
+          "titulo": "Sports intro",
+          "tipo": "bomdia",
+          "palavras": 80,
+          "prompt": "A very short, high-energy link in exactly five to seven short lines, alternating Alex and Sam. They get excited because it is time for the sports segment, the part of the show they love most. Alex teases that Jordan and Riley are ready to argue about the big games and the hot takes of the day, and Sam jokes that this is where the friendly fights begin. Build up the energy and end by handing the show over to the sports desk. Do not mention any real result, team, player or score, do not read any news, do not mention the date and do not say goodbye.",
+          "vozes": {
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+          }
+        },
+        {
+          "titulo": "Sports",
+          "tipo": "noticias",
+          "categorias": ["esportes"],
+          "n_itens": 10,
+          "palavras": 2000,
+          "prompt": "A hot-takes sports show with friendly rivalry. Open with a lightning round: Jordan and Riley read the results and headlines of the first two stories in a few quick lines each. Then, for each remaining story, Jordan defends the favorite or the safe opinion and Riley backs the underdog or the bold opinion. They interrupt each other, tease each other and go back and forth at least three times per story. Predictions are allowed, but they must be called predictions and never stated as facts. After each story, each host gives a score from one to ten for the team or athlete involved and explains it in one line. For injuries, deaths or tragedies, they drop the banter and react with respect. Spend at least 200 words per story. Results, scores, names and numbers must come only from the material.",
+          "vozes": {
+            "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
+            "Riley":  { "gemini": "Leda", "edge": "en-US-AmberNeural" }
+          }
+        },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 10, "segundos": 1900, "vinheta": true },
+      {
+        "titulo": "Wrap-up",
+        "tipo": "resumo",
+        "n_itens": 10,
+        "palavras": 600,
+        "ultimo": true,
+        "prompt": "A quick, cheerful recap of the biggest stories of the day, then a warm good night to the audience, wishing them a good rest and thanking them for the company.",
+        "vozes": {
+          "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+          "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
+        }
+      }
+      ]
     }
   },
   "fuso": "America/Sao_Paulo"
