@@ -202,6 +202,7 @@ def roteiro(b, material, primeiro, ultimo):
          + "Format STRICTLY as lines starting with '<Name>:' and nothing else.\n\nMATERIAL:\n"
          + "\n".join(material))
     padrao = re.compile(r"^(" + "|".join(map(re.escape, nomes)) + r"):")
+    melhor = None
     for m in MODELOS_TEXTO:
         try:
             t = gemini(m, {"contents": [{"parts": [{"text": p}]}],
@@ -209,12 +210,16 @@ def roteiro(b, material, primeiro, ultimo):
             linhas = [l.strip().replace("*", "") for l in t.splitlines()]
             linhas = [l for l in linhas if padrao.match(l)]
             if len(linhas) >= 4:
-                print(f"  Roteiro {m}: {len(linhas)} falas")
-                return linhas
+                n = sum(len(l.split()) for l in linhas)
+                print(f"  Roteiro {m}: {len(linhas)} falas, {n} palavras (pedido: {b['palavras']})")
+                if melhor is None or n > melhor[0]:
+                    melhor = (n, linhas)
+                if n >= b["palavras"] * 0.6:
+                    break
         except Exception as e:
             print(f"  [aviso] roteiro {m}: {e}")
         time.sleep(3)
-    return None
+    return melhor[1] if melhor else None
 
 
 def partir(linhas):
@@ -270,19 +275,30 @@ def tts_gemini(trecho, vozes):
         print("  [aviso] Gemini TTS desligado nesta execução; usando Edge TTS.")
     return None
 
+
 def tts_edge(trecho, vozes):
     import edge_tts
     pcm = b""
     with tempfile.TemporaryDirectory() as tmp:
         for k, l in enumerate(trecho):
             nome, fala = l.split(":", 1)
+            fala = fala.strip()
+            if not re.search(r"\w", fala):      # linha sem nada para falar
+                continue
             v = vozes.get(nome.strip()) or next(iter(vozes.values()))
             arq = os.path.join(tmp, f"{k}.mp3")
-            asyncio.run(edge_tts.Communicate(
-                fala.strip(), v["edge"]).save(arq))
-            r = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", arq, "-f", "s16le",
-                                "-ar", str(TAXA), "-ac", "1", "-"], capture_output=True, check=True)
-            pcm += r.stdout + silencio(0.25)
+            for tentativa in range(3):
+                try:
+                    asyncio.run(edge_tts.Communicate(fala, v["edge"]).save(arq))
+                    r = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", arq, "-f", "s16le",
+                                        "-ar", str(TAXA), "-ac", "1", "-"], capture_output=True, check=True)
+                    pcm += r.stdout + silencio(0.25)
+                    break
+                except Exception as e:
+                    print(f"  [aviso] edge linha {k + 1}, tentativa {tentativa + 1}: {e}")
+                    time.sleep(2 * (tentativa + 1))
+    if not pcm:
+        raise RuntimeError("edge sem nenhum áudio")
     return pcm
 
 
@@ -335,7 +351,7 @@ def info_musica(caminho):
     return float(fmt.get("duration") or 0), nome
 
 
-def montar_faixa(caminho, saida, dur, voz_pcm, limite=None):
+def montar_faixa(caminho, saida, dur, voz_pcm, limite=None, voz_fim=None):
     """Música com fades e volume nivelado; a vinheta falada entra por cima, abaixando a música."""
     cm = CFG["musica"]
     lim = limite or cm["segundos"]
@@ -344,6 +360,13 @@ def montar_faixa(caminho, saida, dur, voz_pcm, limite=None):
     musica = (f"atrim=0:{T:.2f},asetpts=PTS-STARTPTS,aresample=44100,aformat=channel_layouts=stereo,"
               f"loudnorm=I=-18:TP=-1.5:LRA=11,aresample=44100,"
               f"afade=t=in:d={cm['fade_entrada']},afade=t=out:st={max(0, T - fo):.2f}:d={fo}")
+    if voz_fim:   # vinheta falada no final da música (chamada para a notícia)
+        ini = voz_pcm or b""
+        seg_ini = len(ini) / TAXA / 2
+        seg_fim = len(voz_fim) / TAXA / 2
+        # o filtro adiciona 1,5 s de atraso a tudo; a vinheta termina 0,5 s antes do fim
+        pos = max(seg_ini + 0.5, T - seg_fim - 0.5 - 1.5)
+        voz_pcm = ini + silencio(pos - seg_ini) + voz_fim
     with tempfile.TemporaryDirectory() as tmp:
         if voz_pcm:
             raw = os.path.join(tmp, "voz.raw")
@@ -362,7 +385,7 @@ def montar_faixa(caminho, saida, dur, voz_pcm, limite=None):
     return T
 
 
-def adicionar_musica(estado, pasta, blocos, com_vinheta=True, limite=None):
+def adicionar_musica(estado, pasta, blocos, com_vinheta=True, limite=None, chamar_noticia=False):
     caminho = sorteia_musica(estado)
     if not caminho:
         print("  (pasta de músicas vazia ou ausente; sem música neste ponto)")
@@ -378,10 +401,20 @@ def adicionar_musica(estado, pasta, blocos, com_vinheta=True, limite=None):
                            "Station": {"edge": CFG["voz_vinheta"]}})
         except Exception as e:
             print(f"  [aviso] vinheta: {e}")
+    voz_fim = None
+    frases_fim = [com_nome(f) for f in CFG.get("vinhetas_noticia", [])]
+    if frases_fim and chamar_noticia:
+        kf = estado.get("vinheta_fim_idx", 0)
+        estado["vinheta_fim_idx"] = kf + 1
+        try:
+            voz_fim = tts_edge([f"Station: {frases_fim[kf % len(frases_fim)]}"], {
+                               "Station": {"edge": CFG["voz_vinheta"]}})
+        except Exception as e:
+            print(f"  [aviso] vinheta de notícia: {e}")
     arq = f"{len(blocos) + 1:02d}.mp3"
     for v in ([voz, None] if voz else [None]):
         try:
-            T = montar_faixa(caminho, os.path.join(pasta, arq), dur, v, limite)
+            T = montar_faixa(caminho, os.path.join(pasta, arq), dur, v, limite, voz_fim)
             blocos.append({"titulo": "Music: " + nome, "arquivo": arq,
                           "duracao": round(T), "tipo": "musica"})
             print(
@@ -504,9 +537,10 @@ def main():
             adicionar_pre(estado, b, blocos)
             continue
         if b["tipo"] == "musicas":      # sequência de músicas, uma atrás da outra
-            for _ in range(b["n"]):
+            for k in range(b["n"]):
                 adicionar_musica(estado, pasta, blocos, b.get(
-                    "vinheta", False), b.get("segundos"))
+                    "vinheta", False), b.get("segundos"),
+                    chamar_noticia=bool(b.get("vinheta_fim")) and k == b["n"] - 1)
             continue
         usados = []
         if b["tipo"] == "bomdia":
@@ -521,7 +555,7 @@ def main():
                 except Exception as e:
                     print(f"  [aviso] clima {c['nome']}: {e}")
         elif b["tipo"] == "resumo":
-            material = [f"- {t}" for t in titulos_bloco1[:b["n_itens"]]]
+            material = [f"- {t}" for t in random.sample(titulos_bloco1, min(b["n_itens"], len(titulos_bloco1)))]
         else:
             if ED.get("nota_noticias") and not noticias_ok:   # primeira entrada do noticiário
                 b = dict(b, prompt=b["prompt"] + " " + ED["nota_noticias"])
@@ -530,15 +564,14 @@ def main():
             if len(usados) < min(3, b["n_itens"]):   # poucas notícias inéditas: completa com as recentes
                 extra = escolher(pool, b.get("categorias"), b["n_itens"], {})
                 ja = {i["h"] for i in usados}
-                usados += [i for i in extra if i["h"] not in ja][:b["n_itens"] - len(usados)]                       
+                usados += [i for i in extra if i["h"] not in ja][:b["n_itens"] - len(usados)]
             for i in usados:
                 if i.get("link") and "news.google.com" not in i["link"]:
                     t = texto_materia(i["link"])
                     if len(t) > len(i["resumo"]):
                         i["resumo"] = t
             material = [linha_item(i) for i in usados]
-            if not titulos_bloco1:
-                titulos_bloco1 = [i["titulo"] for i in usados]
+            titulos_bloco1 += [i["titulo"] for i in usados[:3]]
         if len(material) < 2:
             print("  [aviso] material insuficiente; bloco ignorado.")
             continue
@@ -559,7 +592,7 @@ def main():
         for i in usados:
             vistos[i["h"]] = agora.isoformat()
         if b.get("musica_depois") and not b.get("ultimo"):
-            adicionar_musica(estado, pasta, blocos)
+            adicionar_musica(estado, pasta, blocos, chamar_noticia=True)
 
     if not any("arquivo" in x and x.get("tipo") != "musica" for x in blocos):
         shutil.rmtree(pasta, ignore_errors=True)
@@ -581,7 +614,8 @@ def main():
     json.dump(man, open(man_path, "w"), indent=1)
     publicar_estaticos()
     json.dump({"vistos": vistos, "clima_idx": idx_clima % len(cidades), "musicas": estado.get("musicas", []),
-               "vinheta_idx": estado.get("vinheta_idx", 0), "pre": estado.get("pre", {})}, open(ESTADO, "w"))
+               "vinheta_idx": estado.get("vinheta_idx", 0),
+               "vinheta_fim_idx": estado.get("vinheta_fim_idx", 0), "pre": estado.get("pre", {})}, open(ESTADO, "w"))
     total = sum(b["duracao"] for b in blocos)
     print(
         f"Programa {pid}: {len(blocos)} blocos, {total // 60} min {total % 60} s")
