@@ -1,6 +1,6 @@
 {
   "nome_radio": "The Morning Paper radio",
-  "horas_recentes": 36,
+  "horas_recentes": 50,
   "manter_programas": 2,
   "estilo": "You write scripts for an English-language radio program called {nome}. Casual, warm, short sentences, natural reactions and light banter. No emojis, no stage directions, no sound-effect cues. Stay faithful to the facts in the material and invent nothing; if a detail is not in the material, do not state it. Write numbers and units the way they are spoken (for example: twenty-one degrees Celsius). Material may be in Portuguese or other languages: always speak English.",
   "fontes": [
@@ -741,6 +741,9 @@
         }
       ]
 },
+
+
+
     "noite": {
       "nome": "The Evening Paper News",
       "tom": "This is the Evening edition: playful, warm and chatty, like a relaxed magazine show. Light jokes are welcome, but never about tragedies.",
@@ -756,22 +759,24 @@
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
-        { "titulo": "Evening music", "tipo": "musicas", "n": 1, "segundos": 170, "vinheta": true }
+        { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 500, "vinheta": true }
       ],
       "grade": [
-        {
-          "titulo": "Top headlines",
+          {
+          "titulo": "The Koreas",
           "tipo": "noticias",
-          "categorias": null,
+          "categorias": ["koreas"],
           "n_itens": 10,
-          "palavras": 900,
-          "prompt": "The most important stories of the moment from around the world. Group related stories and give the bigger ones more room. Keep the banter light, but treat serious stories seriously.",
+          "palavras": 6000,
+          "prompt": "Keep a neutral tone and always attribute claims to their source, for example 'according to NK News'. Claims from a government or state media are presented as claims, not as facts. For each story: Alex gives one reading of what it could mean, Sam offers a different reading, and they discuss what each reading would imply. They do not cheer for any government. End each story with one short line on what to watch next. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
-          },
-          "musica_depois": true
+          }
         },
+        
+        { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
+
         {
           "titulo": "World weather",
           "tipo": "clima",
@@ -781,54 +786,82 @@
           "vozes": { "Maya": { "gemini": "Aoede", "edge": "en-US-JennyNeural" } }
         },
         {
+          "titulo": "Sports",
+          "tipo": "noticias",
+          "categorias": ["esportes"],
+          "n_itens": 10,
+          "palavras": 9000,
+          "prompt": "A hot-takes sports show with friendly rivalry. Open with a lightning round: Jordan and Riley read the results and headlines of the first two stories in a few quick lines each. Then, for each remaining story, Jordan defends the favorite or the safe opinion and Riley backs the underdog or the bold opinion. They interrupt each other, tease each other and go back and forth at least three times per story. Predictions are allowed, but they must be called predictions and never stated as facts. After each story, each host gives a score from one to ten for the team or athlete involved and explains it in one line. For injuries, deaths or tragedies, they drop the banter and react with respect. Spend at least 200 words per story. Results, scores, names and numbers must come only from the material.",
+          "vozes": {
+            "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
+            "Riley":  { "gemini": "Leda", "edge": "en-US-AmberNeural" }
+          }
+        },
+         { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 500, "vinheta": true },
+
+        {
           "titulo": "World and economy",
           "tipo": "noticias",
           "categorias": ["mundo"],
-          "n_itens": 9,
-          "palavras": 800,
-          "prompt": "Politics, world affairs and the economy, with emphasis on the Middle East, Africa and Asia. No country has priority.",
+          "n_itens": 7,
+          "palavras": 2100,
+          "prompt": "For each story: Alex explains what happened, then Sam asks the hard questions: who gains, who loses, what are the risks and what is still unclear. They weigh the strongest arguments of each side and go back and forth at least three times per story, politely. Do not take a side in wars, elections or disputes between countries: present the best case each side would make and attribute claims to their source. For economy stories, debate what it means for ordinary people. No country has priority. For tragedies, react with respect and do not debate. Spend at least 250 words per story. Every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
         {
           "titulo": "Space and science",
           "tipo": "noticias",
           "categorias": ["ciencia"],
-          "n_itens": 7,
-          "palavras": 650,
-          "prompt": "Space and science stories. Curious and enthusiastic, explain terms simply. Sam asks the 'dumb' questions listeners might have, and Alex answers.",
+          "n_itens": 3,
+          "palavras": 1200,
+          "prompt": "Curious and enthusiastic. For each story: Alex explains the discovery in simple terms, and Sam plays the friendly skeptic who asks 'wait, really?' and 'how do they know that?'. They discuss whether it is a real breakthrough or just a small step, and what scientists still do not know. Explain every technical term in one simple sentence. Do not exaggerate what the material says. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
-          },
-          "musica_depois": true
+          }
+        },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
+        {
+          "titulo": "World weather",
+          "tipo": "clima",
+          "n_cidades": 8,
+          "palavras": 800,
+          "prompt": "A friendly weather report for the cities in the material: current conditions, today's range and chance of rain. Add one light, human comment per city. One presenter only.",
+          "vozes": { "Maya": { "gemini": "Aoede", "edge": "en-US-JennyNeural" } }
         },
         {
           "titulo": "Technology and AI",
           "tipo": "noticias",
           "categorias": ["tech"],
-          "n_itens": 7,
-          "palavras": 650,
+          "n_itens": 8,
+          "palavras": 3000,
           "prompt": "Technology and artificial intelligence stories. Explain what happened and why it matters, without hype.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
+        
+
+        { "titulo": "Evening music", "tipo": "musicas", "n": 10, "segundos": 1900, "vinheta": true },
         {
-          "titulo": "Sports",
+          "titulo": "Top headlines",
           "tipo": "noticias",
-          "categorias": ["esportes"],
-          "n_itens": 8,
-          "palavras": 650,
-          "prompt": "Sports desk. Energetic, with friendly rivalry between the two hosts. Mention results and key players only as they appear in the material.",
+          "categorias": null,
+          "n_itens": 10,
+          "palavras": 6000,
+          "prompt": "Cover each story in depth: explain what happened, why it matters and what could come next. After each story, each host gives a short personal take. Spend at least 200 words per story. Opinions are allowed, but every fact, number and name must come only from the material.",
           "vozes": {
-            "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
-            "Riley":  { "gemini": "Leda", "edge": "en-US-AmberNeural" }
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
+
+      { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
       {
         "titulo": "Wrap-up",
         "tipo": "resumo",
