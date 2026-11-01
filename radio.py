@@ -45,6 +45,7 @@ TAXA = 24000
 # segundos entre chamadas do Gemini TTS (respeita o limite por minuto)
 PAUSA_TTS = 6
 MAX_CHARS_TRECHO = 2200
+SEG_TELEGRAM = 3600   # tamanho de cada parte enviada ao Telegram (segundos)
 gemini_voz_ligado = True
 falhas_gemini_voz = 0
 
@@ -520,6 +521,55 @@ def texto_materia(url, limite=3500):
         return ""
 
 
+def enviar_telegram(pid, blocos, pasta):
+    """Junta o programa, divide em partes de 60 min (64 kbps, mono) e envia ao canal do Telegram.
+    Precisa dos segredos TELEGRAM_BOT_TOKEN e TELEGRAM_CHAT_ID; sem eles, não faz nada."""
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    chat = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    if not token or not chat:
+        print("Telegram: sem token ou canal configurado; envio ignorado.")
+        return
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            lista = os.path.join(tmp, "lista.txt")
+            n = 0
+            with open(lista, "w", encoding="utf-8") as f:
+                for b in blocos:
+                    if "arquivo" in b:
+                        p = os.path.join(pasta, b["arquivo"])
+                    else:
+                        p = os.path.join(SITE, urllib.parse.unquote(b["url"]))
+                    if not os.path.exists(p):
+                        continue
+                    n += 1
+                    norm = os.path.join(tmp, f"n{n:03d}.mp3")
+                    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", p, "-vn", "-ac", "1",
+                                    "-ar", "44100", "-b:a", "64k", norm], check=True)
+                    f.write(f"file '{norm}'\n")
+            subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-f", "concat", "-safe", "0", "-i", lista,
+                            "-c", "copy", "-f", "segment", "-segment_time", str(SEG_TELEGRAM),
+                            "-reset_timestamps", "1", os.path.join(tmp, "parte_%02d.mp3")], check=True)
+            partes = sorted(x for x in os.listdir(tmp) if x.startswith("parte_"))
+            data = f"{pid[6:8]}/{pid[4:6]}/{pid[:4]}"
+            for k, nome in enumerate(partes, 1):
+                r = subprocess.run(
+                    ["curl", "-s", "--max-time", "900", "-F", f"chat_id={chat}",
+                     "-F", f"audio=@{os.path.join(tmp, nome)}",
+                     "-F", f"title={NOME} - {data} ({k}/{len(partes)})", "-F", f"performer={NOME}",
+                     f"https://api.telegram.org/bot{token}/sendAudio"],
+                    capture_output=True, text=True)
+                try:
+                    resp = json.loads(r.stdout or "{}")
+                except Exception:
+                    resp = {}
+                if resp.get("ok"):
+                    print(f"Telegram: parte {k}/{len(partes)} enviada.")
+                else:
+                    print(f"  [aviso] Telegram parte {k}: {resp.get('description') or r.stdout[:200] or r.stderr[:200]}")
+    except Exception as e:
+        print(f"  [aviso] Telegram: {e}")
+
+
 def main():
     if not CHAVE:
         sys.exit("GEMINI_API_KEY ausente.")
@@ -626,6 +676,7 @@ def main():
     json.dump({"vistos": vistos, "clima_idx": idx_clima % len(cidades), "musicas": estado.get("musicas", []),
                "vinheta_idx": estado.get("vinheta_idx", 0),
                "vinheta_fim_idx": estado.get("vinheta_fim_idx", 0), "pre": estado.get("pre", {})}, open(ESTADO, "w"))
+    enviar_telegram(pid, blocos, pasta)
     total = sum(b["duracao"] for b in blocos)
     print(
         f"Programa {pid}: {len(blocos)} blocos, {total // 60} min {total % 60} s")
