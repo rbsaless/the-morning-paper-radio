@@ -766,8 +766,8 @@
           "titulo": "The Koreas",
           "tipo": "noticias",
           "categorias": ["koreas"],
-          "n_itens": 10,
-          "palavras": 6000,
+          "n_itens": 8,
+          "palavras": 3000,
           "prompt": "Keep a neutral tone and always attribute claims to their source, for example 'according to NK News'. Claims from a government or state media are presented as claims, not as facts. For each story: Alex gives one reading of what it could mean, Sam offers a different reading, and they discuss what each reading would imply. They do not cheer for any government. End each story with one short line on what to watch next. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
@@ -789,8 +789,8 @@
           "titulo": "Sports",
           "tipo": "noticias",
           "categorias": ["esportes"],
-          "n_itens": 10,
-          "palavras": 9000,
+          "n_itens": 7,
+          "palavras": 3000,
           "prompt": "A hot-takes sports show with friendly rivalry. Open with a lightning round: Jordan and Riley read the results and headlines of the first two stories in a few quick lines each. Then, for each remaining story, Jordan defends the favorite or the safe opinion and Riley backs the underdog or the bold opinion. They interrupt each other, tease each other and go back and forth at least three times per story. Predictions are allowed, but they must be called predictions and never stated as facts. After each story, each host gives a score from one to ten for the team or athlete involved and explains it in one line. For injuries, deaths or tragedies, they drop the banter and react with respect. Spend at least 200 words per story. Results, scores, names and numbers must come only from the material.",
           "vozes": {
             "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
@@ -817,7 +817,7 @@
           "tipo": "noticias",
           "categorias": ["ciencia"],
           "n_itens": 3,
-          "palavras": 1200,
+          "palavras": 1000,
           "prompt": "Curious and enthusiastic. For each story: Alex explains the discovery in simple terms, and Sam plays the friendly skeptic who asks 'wait, really?' and 'how do they know that?'. They discuss whether it is a real breakthrough or just a small step, and what scientists still do not know. Explain every technical term in one simple sentence. Do not exaggerate what the material says. Spend at least 220 words per story. Every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
@@ -851,9 +851,9 @@
         {
           "titulo": "Top headlines",
           "tipo": "noticias",
-          "categorias": null,
+          "categorias": "mundo",
           "n_itens": 10,
-          "palavras": 6000,
+          "palavras": 3000,
           "prompt": "Cover each story in depth: explain what happened, why it matters and what could come next. After each story, each host gives a short personal take. Spend at least 200 words per story. Opinions are allowed, but every fact, number and name must come only from the material.",
           "vozes": {
             "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
