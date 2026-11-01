@@ -775,7 +775,7 @@
           }
         },
         
-        { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 600, "vinheta": true },
 
         {
           "titulo": "World weather",
@@ -791,10 +791,10 @@
           "categorias": ["esportes"],
           "n_itens": 7,
           "palavras": 3000,
-          "prompt": "A hot-takes sports show with friendly rivalry. Open with a lightning round: Jordan and Riley read the results and headlines of the first two stories in a few quick lines each. Then, for each remaining story, Jordan defends the favorite or the safe opinion and Riley backs the underdog or the bold opinion. They interrupt each other, tease each other and go back and forth at least three times per story. Predictions are allowed, but they must be called predictions and never stated as facts. After each story, each host gives a score from one to ten for the team or athlete involved and explains it in one line. For injuries, deaths or tragedies, they drop the banter and react with respect. Spend at least 200 words per story. Results, scores, names and numbers must come only from the material.",
+          "prompt": "A hot-takes sports show with friendly rivalry. Open with a lightning round: Alex and Sam read the results and headlines of the first two stories in a few quick lines each. Then, for each remaining story, Alex defends the favorite or the safe opinion and Sam backs the underdog or the bold opinion. They interrupt each other, tease each other and go back and forth at least three times per story. Predictions are allowed, but they must be called predictions and never stated as facts. After each story, each host gives a score from one to ten for the team or athlete involved and explains it in one line. For injuries, deaths or tragedies, they drop the banter and react with respect. Spend at least 200 words per story. Results, scores, names and numbers must come only from the material.",
           "vozes": {
-            "Jordan": { "gemini": "Charon", "edge": "en-US-DavisNeural" },
-            "Riley":  { "gemini": "Leda", "edge": "en-US-AmberNeural" }
+            "Alex": { "gemini": "Kore", "edge": "en-US-AriaNeural" },
+            "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
          { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 500, "vinheta": true },
@@ -811,7 +811,7 @@
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
-        { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 600, "vinheta": true },
         {
           "titulo": "Space and science",
           "tipo": "noticias",
@@ -824,7 +824,7 @@
             "Sam":  { "gemini": "Puck", "edge": "en-US-GuyNeural" }
           }
         },
-        { "titulo": "Evening music", "tipo": "musicas", "n": 4, "segundos": 1000, "vinheta": true },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 2, "segundos": 600, "vinheta": true },
         {
           "titulo": "World weather",
           "tipo": "clima",
@@ -847,7 +847,7 @@
         },
         
 
-        { "titulo": "Evening music", "tipo": "musicas", "n": 10, "segundos": 1900, "vinheta": true },
+        { "titulo": "Evening music", "tipo": "musicas", "n": 3, "segundos": 1000, "vinheta": true },
         {
           "titulo": "Top headlines",
           "tipo": "noticias",
