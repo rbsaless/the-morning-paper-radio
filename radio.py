@@ -204,9 +204,19 @@ def roteiro(b, material, primeiro, ultimo):
     padrao = re.compile(r"^(" + "|".join(map(re.escape, nomes)) + r"):")
     melhor = None
     for m in MODELOS_TEXTO:
-        try:
-            t = gemini(m, {"contents": [{"parts": [{"text": p}]}],
-                           "generationConfig": {"temperature": 0.7}})["text"]
+        t = None
+        for tent in range(3):          # 503 (sobrecarga), 429 e timeout: espera e tenta o mesmo modelo
+            try:
+                t = gemini(m, {"contents": [{"parts": [{"text": p}]}],
+                               "generationConfig": {"temperature": 0.7}})["text"]
+                break
+            except Exception as e:
+                print(f"  [aviso] roteiro {m} (tentativa {tent + 1}): {e}")
+                if any(x in str(e) for x in ("503", "429", "timed out")):
+                    time.sleep(20 * (tent + 1))
+                else:
+                    break
+        if t:
             linhas = [l.strip().replace("*", "") for l in t.splitlines()]
             linhas = [l for l in linhas if padrao.match(l)]
             if len(linhas) >= 4:
@@ -216,8 +226,6 @@ def roteiro(b, material, primeiro, ultimo):
                     melhor = (n, linhas)
                 if n >= b["palavras"] * 0.6:
                     break
-        except Exception as e:
-            print(f"  [aviso] roteiro {m}: {e}")
         time.sleep(3)
     return melhor[1] if melhor else None
 
@@ -289,7 +297,9 @@ def tts_edge(trecho, vozes):
             arq = os.path.join(tmp, f"{k}.mp3")
             for tentativa in range(3):
                 try:
-                    asyncio.run(edge_tts.Communicate(fala, v["edge"]).save(arq))
+                    # na última tentativa usa uma voz padrão, caso o nome da voz não exista
+                    voz = v["edge"] if tentativa < 2 else "en-US-GuyNeural"
+                    asyncio.run(edge_tts.Communicate(fala, voz).save(arq))
                     r = subprocess.run(["ffmpeg", "-loglevel", "error", "-i", arq, "-f", "s16le",
                                         "-ar", str(TAXA), "-ac", "1", "-"], capture_output=True, check=True)
                     pcm += r.stdout + silencio(0.25)
