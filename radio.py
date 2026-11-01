@@ -180,7 +180,7 @@ def clima(c):
 
 
 # ---------- Gemini ----------
-def gemini(modelo, corpo, t=180):
+def gemini(modelo, corpo, t=600):
     req = urllib.request.Request(
         f"https://generativelanguage.googleapis.com/v1beta/models/{modelo}:generateContent",
         data=json.dumps(corpo).encode(),
