@@ -851,7 +851,7 @@
         {
           "titulo": "Top headlines",
           "tipo": "noticias",
-          "categorias": "mundo",
+          "categorias": ["mundo"],
           "n_itens": 10,
           "palavras": 3000,
           "prompt": "Cover each story in depth: explain what happened, why it matters and what could come next. After each story, each host gives a short personal take. Spend at least 200 words per story. Opinions are allowed, but every fact, number and name must come only from the material.",
