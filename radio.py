@@ -527,6 +527,10 @@ def main():
                 b = dict(b, prompt=b["prompt"] + " " + ED["nota_noticias"])
             noticias_ok = True
             usados = escolher(pool, b.get("categorias"), b["n_itens"], vistos)
+            if len(usados) < min(3, b["n_itens"]):   # poucas notícias inéditas: completa com as recentes
+                extra = escolher(pool, b.get("categorias"), b["n_itens"], {})
+                ja = {i["h"] for i in usados}
+                usados += [i for i in extra if i["h"] not in ja][:b["n_itens"] - len(usados)]                       
             for i in usados:
                 if i.get("link") and "news.google.com" not in i["link"]:
                     t = texto_materia(i["link"])
