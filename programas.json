@@ -1,0 +1,319 @@
+{
+ "programas": [
+  {
+   "id": "20261101-0358-noite",
+   "criado": "2026-11-01T03:58:36.220620+00:00",
+   "edicao": "noite",
+   "nome": "The Evening Paper News",
+   "blocos": [
+    {
+     "titulo": "Welcome",
+     "arquivo": "01.mp3",
+     "duracao": 104
+    },
+    {
+     "titulo": "Music: Merle Haggard, I think I'll just stay here and drink.",
+     "arquivo": "02.mp3",
+     "duracao": 270,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Waylon Jennings - Dukes Of Hazzard \uff02Good Ol' Boys\uff02 Theme Song",
+     "arquivo": "03.mp3",
+     "duracao": 130,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "The Koreas",
+     "arquivo": "04.mp3",
+     "duracao": 182
+    },
+    {
+     "titulo": "Music: George Jones - He Stopped Loving Her Today",
+     "arquivo": "05.mp3",
+     "duracao": 198,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: I Was Country When Country Wasn't Cool by Barbara Mandrell and George Jones",
+     "arquivo": "06.mp3",
+     "duracao": 220,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World weather",
+     "arquivo": "07.mp3",
+     "duracao": 139
+    },
+    {
+     "titulo": "Sports",
+     "arquivo": "08.mp3",
+     "duracao": 510
+    },
+    {
+     "titulo": "Music: Hank Williams jr - Whiskey Bent And Hell Bound",
+     "arquivo": "09.mp3",
+     "duracao": 189,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: I'M SO LONESOME I COULD CRY (1949) by Hank Williams",
+     "arquivo": "10.mp3",
+     "duracao": 181,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World and economy",
+     "arquivo": "11.mp3",
+     "duracao": 405
+    },
+    {
+     "titulo": "Music: Jerry Reed \uff02She Got the Goldmine, I got The Shaft\uff02",
+     "arquivo": "12.mp3",
+     "duracao": 202,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Willie Nelson - On The Road Again (Official Audio)",
+     "arquivo": "13.mp3",
+     "duracao": 154,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Space and science",
+     "arquivo": "14.mp3",
+     "duracao": 235
+    },
+    {
+     "titulo": "Music: Dolly Parton, Kenny Rogers - Islands In the Stream (Official Audio)",
+     "arquivo": "15.mp3",
+     "duracao": 251,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Dolly Parton - I Will Always Love You (Official Audio)",
+     "arquivo": "16.mp3",
+     "duracao": 178,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World weather",
+     "arquivo": "17.mp3",
+     "duracao": 272
+    },
+    {
+     "titulo": "Technology and AI",
+     "arquivo": "18.mp3",
+     "duracao": 249
+    },
+    {
+     "titulo": "Music: Gary Stewart - An Empty Glass",
+     "arquivo": "19.mp3",
+     "duracao": 221,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Lyrics~I Fall To Pieces-Patsy Cline",
+     "arquivo": "20.mp3",
+     "duracao": 168,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Two dollors In tha jukebox ~ Eddie Rabbit",
+     "arquivo": "21.mp3",
+     "duracao": 145,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Top headlines",
+     "arquivo": "22.mp3",
+     "duracao": 258
+    },
+    {
+     "titulo": "Music: Linda Ronstadt - When Will I Be Loved",
+     "arquivo": "23.mp3",
+     "duracao": 125,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: John Denver - Take Me Home, Country Roads (Official Audio)",
+     "arquivo": "24.mp3",
+     "duracao": 196,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Hank williams jr. country state of mind.",
+     "arquivo": "25.mp3",
+     "duracao": 243,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: OH LONESOME ME ~ Don Gibson  1958.wmv",
+     "arquivo": "26.mp3",
+     "duracao": 155,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Wrap-up",
+     "arquivo": "27.mp3",
+     "duracao": 144
+    }
+   ]
+  },
+  {
+   "id": "20261103-0206-noite",
+   "criado": "2026-11-03T02:06:39.130741+00:00",
+   "edicao": "noite",
+   "nome": "The Evening Paper News",
+   "blocos": [
+    {
+     "titulo": "Welcome",
+     "arquivo": "01.mp3",
+     "duracao": 223
+    },
+    {
+     "titulo": "Music: Holly Dunn Daddy's Hands [Lyrcis]",
+     "arquivo": "02.mp3",
+     "duracao": 210,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Don Williams - Tulsa time (+lyrics)",
+     "arquivo": "03.mp3",
+     "duracao": 191,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "The Koreas",
+     "arquivo": "04.mp3",
+     "duracao": 1194
+    },
+    {
+     "titulo": "Music: The Ride -- David Allan Coe",
+     "arquivo": "05.mp3",
+     "duracao": 188,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Steve Wariner - The Weekend",
+     "arquivo": "06.mp3",
+     "duracao": 230,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World weather",
+     "arquivo": "07.mp3",
+     "duracao": 123
+    },
+    {
+     "titulo": "Sports",
+     "arquivo": "08.mp3",
+     "duracao": 536
+    },
+    {
+     "titulo": "Music: Good Hearted Woman",
+     "arquivo": "09.mp3",
+     "duracao": 181,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: I Don't Need Your Rockin' Chair",
+     "arquivo": "10.mp3",
+     "duracao": 210,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World and economy",
+     "arquivo": "11.mp3",
+     "duracao": 473
+    },
+    {
+     "titulo": "Music: Why Have You Left The One You Left Me For - Crystal Gayle",
+     "arquivo": "12.mp3",
+     "duracao": 174,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Hank Williams, Jr. - \uff02A Country Boy Can Survive\uff02 (Official Music Video)",
+     "arquivo": "13.mp3",
+     "duracao": 274,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Space and science",
+     "arquivo": "14.mp3",
+     "duracao": 215
+    },
+    {
+     "titulo": "Music: CDB - Long Haired Country Boy",
+     "arquivo": "15.mp3",
+     "duracao": 242,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Johnny Paycheck - Take This Job And Shove It (Audio)",
+     "arquivo": "16.mp3",
+     "duracao": 158,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "World weather",
+     "arquivo": "17.mp3",
+     "duracao": 232
+    },
+    {
+     "titulo": "Technology and AI",
+     "arquivo": "18.mp3",
+     "duracao": 289
+    },
+    {
+     "titulo": "Music: Jimmy Buffett - Margaritaville (Lyrics)",
+     "arquivo": "19.mp3",
+     "duracao": 248,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Vern Gosdin - Set 'em Up Joe",
+     "arquivo": "20.mp3",
+     "duracao": 150,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Six Days on the Road Dave Dudley",
+     "arquivo": "21.mp3",
+     "duracao": 143,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: George Jones - The Race Is On",
+     "arquivo": "22.mp3",
+     "duracao": 129,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Mel McDaniel - Baby's Got Her BlueJeans On",
+     "arquivo": "23.mp3",
+     "duracao": 184,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Patsy Cline-Walkin' After Midnight",
+     "arquivo": "24.mp3",
+     "duracao": 168,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Music: Ronnie Milsap - Day Dreams About Night Thing's",
+     "arquivo": "25.mp3",
+     "duracao": 145,
+     "tipo": "musica"
+    },
+    {
+     "titulo": "Wrap-up",
+     "arquivo": "26.mp3",
+     "duracao": 118
+    }
+   ]
+  }
+ ]
+}
